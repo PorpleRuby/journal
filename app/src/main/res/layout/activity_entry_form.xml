@@ -7,4 +7,104 @@
     android:layout_height="match_parent"
     tools:context=".entry_form">
 
+    <ScrollView
+        android:id="@+id/scroll_entry"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FAF9F5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FBFAF6"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="47dp"
+                android:layout_marginTop="20dp"
+                android:background="#FBFAF6">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#FBFAF6"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/back_entry_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="26dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/baseline_arrow_back_ios_24" />
+
+                    <TextView
+                        android:id="@+id/entryAppTitle"
+                        android:layout_width="221dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Mishau" />
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="14dp"
+                        android:layout_weight="1" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="389dp"
+                android:layout_height="514dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="30dp"
+                android:background="#FEF5F6"
+                android:backgroundTint="#FEF5F6"
+                android:foregroundGravity="center_horizontal"
+                app:cardCornerRadius="20dp">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/paper" />
+
+                <EditText
+                    android:id="@+id/content_field"
+                    style="@style/Widget.Material3.AutoCompleteTextView.FilledBox"
+                    android:layout_width="373dp"
+                    android:layout_height="454dp"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="29dp"
+                    android:breakStrategy="simple"
+                    android:clickable="false"
+                    android:focusableInTouchMode="true"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="start|top"
+                    android:hint="Describe your day or your feelings..."
+                    android:inputType="textMultiLine"
+                    android:paddingStart="10dp"
+                    android:paddingLeft="10dp"
+                    android:scrollHorizontally="false"
+                    android:textColor="#2E3D40"
+                    android:textSize="15sp" />
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/submit_entry"
+                android:layout_width="169dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="#FBCECC"
+                android:text="Submit" />
+        </LinearLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
