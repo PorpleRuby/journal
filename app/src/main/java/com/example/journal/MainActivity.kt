@@ -5,6 +5,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import android.widget.*
+import android.content.Intent
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,5 +20,18 @@ class MainActivity : AppCompatActivity() {
         }
         //change 1
         //change 2
+
+        var regBtn:Button = findViewById(R.id.getStarted)
+        var loginBtn:Button = findViewById(R.id.loginBtn)
+
+        regBtn.setOnClickListener {
+            val intent = Intent(this, RegistrationPage::class.java)
+            startActivity(intent)
+        }
+
+        loginBtn.setOnClickListener {
+            val intent = Intent(this, LoginPage::class.java)
+            startActivity(intent)
+        }
     }
 }
