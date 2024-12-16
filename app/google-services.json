@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "573345678902",
+    "project_id": "mishau-fcc6d",
+    "storage_bucket": "mishau-fcc6d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:573345678902:android:145e8a0a762b817b1d7a97",
+        "android_client_info": {
+          "package_name": "com.example.journal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAq-ndxGqOh09bTP-akfES_XTYLtNlXckk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
