@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 
-class EntryFormActivity : AppCompatActivity() {
+class entry_form : AppCompatActivity() {
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     val conn = FirebaseFirestore.getInstance()
