@@ -20,6 +20,9 @@ class entry_form : AppCompatActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     val conn = FirebaseFirestore.getInstance()
 
+    // Request code for permissions
+    private val LOCATION_PERMISSION_REQUEST_CODE = 1001
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_entry_form)
@@ -42,7 +45,7 @@ class entry_form : AppCompatActivity() {
                         "location" to "Lat: ${location.latitude}, Long: ${location.longitude}"  // Store location
                     )
 
-                    conn.collection("tbl_new").add(newEntry)
+                    conn.collection("journal_entries").add(newEntry)
 
                     val intent = Intent(this, display_scroll::class.java)
                     startActivity(intent)
@@ -63,13 +66,12 @@ class entry_form : AppCompatActivity() {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+            // Request permissions if not granted
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION),
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
             return
         }
         fusedLocationClient.lastLocation
@@ -79,5 +81,26 @@ class entry_form : AppCompatActivity() {
             .addOnFailureListener {
                 callback(null)  // Return null if failed
             }
+    }
+
+    // Handle the result of permission request
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, you can now access the location
+                getCurrentLocation { location ->
+                    // You can use the location now
+                }
+            } else {
+                // Permission denied, show a message
+                Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

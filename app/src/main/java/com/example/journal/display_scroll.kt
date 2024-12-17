@@ -50,7 +50,7 @@ class display_scroll : AppCompatActivity() {
                     // Set default values
                     imgDelete.setImageResource(R.drawable.trash)
                     imgEdit.setImageResource(R.drawable.pencil)
-                    imgMood.setImageResource(R.drawable.emoji_love)
+                    imgMood.setImageResource(R.drawable.emojii_inlove)
                     lblContent.text = record.getString("journal_entry") ?: "No Entry"
 
                     val recordId = record.id
@@ -121,7 +121,7 @@ class display_scroll : AppCompatActivity() {
                             // Set default values
                             imgDelete.setImageResource(R.drawable.trash)
                             imgEdit.setImageResource(R.drawable.pencil)
-                            imgMood.setImageResource(R.drawable.emoji_love)
+                            imgMood.setImageResource(R.drawable.emojii_inlove)
                             lblContent.text = record.getString("journal_entry") ?: "No Entry"
 
                             val recordId = record.id

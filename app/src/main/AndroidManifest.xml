@@ -17,22 +17,22 @@
         tools:targetApi="31">
         <activity
             android:name=".entriesDisplay"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".display_scroll"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".entry_form"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ProfilePage"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".LoginPage"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".RegistrationPage"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
