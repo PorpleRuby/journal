@@ -37,7 +37,7 @@ class entry_form : AppCompatActivity() {
                 if (location != null) {
                     // Use the location and other data to store in Firestore
                     val newEntry = hashMapOf(
-                        "diaryEntry" to diaryEntry,
+                        "journal_entry" to diaryEntry,
                         "created_at" to LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
                         "location" to "Lat: ${location.latitude}, Long: ${location.longitude}"  // Store location
                     )
