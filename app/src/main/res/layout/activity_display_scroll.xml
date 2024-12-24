@@ -11,11 +11,12 @@
         android:id="@+id/header_home"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_marginTop="50dp"
         android:layout_marginBottom="1dp"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,8 +52,8 @@
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="408dp"
-        android:layout_height="572dp"
+        android:layout_width="406dp"
+        android:layout_height="699dp"
         android:layout_marginTop="1dp"
         app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,6 +72,7 @@
         android:layout_width="413dp"
         android:layout_height="85dp"
         android:layout_marginTop="1dp"
+        app:cardBackgroundColor="#FDFDFD"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -78,7 +80,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="86dp"
+            android:background="#FDFDFD"
             android:orientation="horizontal">
 
             <Space
@@ -90,6 +93,7 @@
                 android:id="@+id/home_button_scroll"
                 android:layout_width="5dp"
                 android:layout_height="52dp"
+                android:layout_marginVertical="10dp"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/baseline_home_24" />
 
@@ -104,6 +108,7 @@
                 android:id="@+id/profileButtonScroll"
                 android:layout_width="14dp"
                 android:layout_height="52dp"
+                android:layout_marginVertical="10dp"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/baseline_person_24" />
 

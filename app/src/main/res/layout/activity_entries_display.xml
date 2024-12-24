@@ -37,24 +37,10 @@
                 android:layout_height="80dp"
                 android:orientation="horizontal">
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/mood"
-                    android:layout_width="44dp"
-                    android:layout_height="42dp"
-                    android:layout_gravity="center_horizontal|top|left"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="25dp"
-                    app:cardBackgroundColor="#F0EFD1"
-                    app:cardCornerRadius="100dp">
-
-                    <ImageView
-                        android:id="@+id/imageView5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:scaleType="centerCrop"
-                        app:srcCompat="@drawable/happykirby"
-                        tools:srcCompat="@drawable/emoji_love" />
-                </androidx.cardview.widget.CardView>
+                <Space
+                    android:layout_width="102dp"
+                    android:layout_height="10dp"
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/date_display"
