@@ -5,7 +5,7 @@
     android:id="@+id/main_register"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_gradient"
+    android:background="#c1dcc2"
     tools:context=".RegistrationPage">
 
     <TextView
@@ -28,12 +28,12 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="386dp"
-        android:layout_height="420dp"
+        android:layout_height="450dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="13dp"
         android:layout_marginBottom="39dp"
-        app:cardBackgroundColor="#F2E4E4E4"
+        app:cardBackgroundColor="#E6EED6"
         app:cardCornerRadius="15dp"
         app:layout_constraintBottom_toTopOf="@+id/btnSignup"
         app:layout_constraintEnd_toEndOf="parent"
@@ -74,7 +74,7 @@
                     android:layout_margin="5dp"
                     android:ems="10"
                     android:hint="Email"
-                    android:inputType="text" />
+                    android:inputType="text|textEmailAddress" />
             </androidx.cardview.widget.CardView>
 
             <TextView
@@ -84,26 +84,25 @@
                 android:textColor="#FF0000" />
 
             <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 app:cardCornerRadius="15dp">
 
                 <EditText
-                    android:id="@+id/regUsername"
-                    android:layout_width="300dp"
+                    android:id="@+id/regFullname"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:ems="10"
-                    android:hint="Username"
+                    android:hint="Full Name"
                     android:inputType="text" />
+
             </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:id="@+id/regERRUser"
+            <Space
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#FF0000" />
+                android:layout_height="20dp" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
@@ -118,7 +117,7 @@
                     android:layout_margin="5dp"
                     android:ems="10"
                     android:hint="Password"
-                    android:inputType="text" />
+                    android:inputType="text|textPassword" />
             </androidx.cardview.widget.CardView>
 
             <TextView
@@ -140,7 +139,7 @@
                     android:layout_margin="5dp"
                     android:ems="10"
                     android:hint="Confirm Password"
-                    android:inputType="text" />
+                    android:inputType="text|textPassword" />
             </androidx.cardview.widget.CardView>
 
             <TextView
@@ -160,7 +159,7 @@
         android:layout_marginStart="105dp"
         android:layout_marginEnd="106dp"
         android:layout_marginBottom="50dp"
-        android:backgroundTint="#25283D"
+        android:backgroundTint="#9FCED6"
         android:text="Register"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
