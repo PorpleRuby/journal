@@ -46,8 +46,15 @@ class display_scroll : AppCompatActivity() {
                     val imgMood: ImageView = template.findViewById(R.id.mood)
                     val imgDelete: ImageView = template.findViewById(R.id.delete_icon)
                     val imgEdit: ImageView = template.findViewById(R.id.edit_icon)
+                    val imgAdd: ImageView = template.findViewById(R.id.add_entry_scroll)
+                    val imgHome: ImageView = template.findViewById(R.id.home_button_scroll)
+                    val imgProfile: ImageView = template.findViewById(R.id.profileButtonScroll)
+
 
                     // Set default values
+                    imgAdd.setImageResource(R.drawable.baseline_add_circle_24)
+                    imgHome.setImageResource(R.drawable.baseline_home_24)
+                    imgProfile.setImageResource(R.drawable.baseline_person_24)
                     imgDelete.setImageResource(R.drawable.trash)
                     imgEdit.setImageResource(R.drawable.pencil)
                     imgMood.setImageResource(R.drawable.emojii_inlove)
