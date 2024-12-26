@@ -1,103 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FCF5FD"
-    android:backgroundTint="#F2F1D3"
     tools:context=".entriesDisplay">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="380dp"
-        android:layout_height="295dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="22dp"
-        app:cardBackgroundColor="#00FFFFFF"
+    <!-- ScrollView for all entries -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="match_parent"
-            android:layout_height="291dp"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/folder" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="180dp"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <LinearLayout
-                android:layout_width="365dp"
-                android:layout_height="80dp"
-                android:orientation="horizontal">
-
-                <Space
-                    android:layout_width="102dp"
-                    android:layout_height="10dp"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/date_display"
-                    android:layout_width="148dp"
-                    android:layout_height="19dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="47dp"
-                    android:layout_weight="1"
-                    android:text="TextView"
-                    android:textSize="11sp" />
-            </LinearLayout>
+            <!-- Example of a single entry -->
 
             <androidx.cardview.widget.CardView
-                android:layout_width="330dp"
-                android:layout_height="161dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="2dp"
-                app:cardBackgroundColor="#F2F1D3">
+                android:layout_width="wrap_content"
+                android:layout_height="120dp"
+                app:cardBackgroundColor="#EDECE5"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
 
-                <EditText
-                    android:id="@+id/display_entry"
-                    style="@style/Widget.Material3.AutoCompleteTextView.FilledBox"
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.4"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/grid" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="10"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:inputType="text"
-                    android:text="Name"
-                    android:textSize="12sp" />
+                    android:layout_height="120dp"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- Title -->
+                    <TextView
+                        android:id="@+id/date_display"
+                        android:layout_width="149dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:layout_weight="1"
+                        android:foregroundGravity="top"
+                        android:gravity="top"
+                        android:text="TextView"
+                        android:textSize="10sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/entry_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:fontFamily="serif"
+                            android:text="Entry Title"
+                            android:textColor="#000000"
+                            android:textSize="23sp"
+                            android:textStyle="bold" />
+
+                        <Space
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/display_entry"
+                        android:layout_width="wrap_content"
+                        android:layout_height="33dp"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text="This is a preview of the entry. It shows just a few lines."
+                        android:textColor="#555555"
+                        android:textSize="14sp" />
+
+                    <!-- Preview of the first few words -->
+                </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/delete_icon"
+                android:layout_width="35dp"
+                android:layout_height="36dp"
+                android:layout_marginBottom="0dp"
+                app:srcCompat="@drawable/trash" />
 
-                <ImageView
-                    android:id="@+id/delete_icon"
-                    android:layout_width="13dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/trash" />
-
-                <ImageView
-                    android:id="@+id/edit_icon"
-                    android:layout_width="9dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/pencil" />
-
-                <Space
-                    android:layout_width="224dp"
-                    android:layout_height="16dp"
-                    android:layout_weight="1" />
-            </LinearLayout>
         </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

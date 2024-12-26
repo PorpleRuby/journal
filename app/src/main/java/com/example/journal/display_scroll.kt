@@ -32,9 +32,6 @@ class display_scroll : AppCompatActivity() {
 
         val layout: LinearLayout = findViewById(R.id.linearLayout)
         val search: SearchView = findViewById(R.id.search)
-        val imgAdd: ImageView = findViewById(R.id.add_entry_scroll)
-        val imgHome: ImageView = findViewById(R.id.home_button_scroll)
-        val imgProfile: ImageView = findViewById(R.id.profileButtonScroll)
 
         // Fetch data from Firestore
         conn.collection("journal_entries")
@@ -47,17 +44,19 @@ class display_scroll : AppCompatActivity() {
                     val lblContent: TextView = template.findViewById(R.id.display_entry)
                     val lblDate: TextView = template.findViewById(R.id.date_display)
                     val imgDelete: ImageView = template.findViewById(R.id.delete_icon)
-                    val imgEdit: ImageView = template.findViewById(R.id.edit_icon)
+                    val lblTitle: TextView = template.findViewById(R.id.entry_title)
 
-                    // Set default values
-                    imgAdd.setImageResource(R.drawable.baseline_add_circle_24)
-                    imgHome.setImageResource(R.drawable.baseline_home_24)
-                    imgProfile.setImageResource(R.drawable.baseline_person_24)
+                    // Set default values for image resources
                     imgDelete.setImageResource(R.drawable.trash)
-                    imgEdit.setImageResource(R.drawable.pencil)
-                    lblContent.text = record.getString("journal_entry") ?: "No Entry"
 
-                    val recordId = record.id
+                    // Assuming your Firestore has a "title" and "journal_entry" field
+                    val title = record.getString("title") ?: "Untitled"
+                    val content = record.getString("journal_entry") ?: "No Content"
+                    val preview = if (content.length > 50) content.substring(0, 50) + "..." else content
+
+                    // Set Title and Preview for display
+                    lblContent.text = "$preview"
+                    lblTitle.text = "$title"
 
                     // Handle delete button click
                     imgDelete.setOnClickListener {
@@ -65,6 +64,7 @@ class display_scroll : AppCompatActivity() {
                             .setTitle("Delete Notification")
                             .setMessage("Are you sure you want to delete this post?")
                             .setPositiveButton("Yes") { _, _ ->
+                                val recordId = record.id
                                 conn.collection("journal_entries").document(recordId).delete()
                                     .addOnSuccessListener {
                                         layout.removeView(template)
@@ -113,37 +113,21 @@ class display_scroll : AppCompatActivity() {
                             // Bind views
                             val lblContent: TextView = template.findViewById(R.id.display_entry)
                             val lblDate: TextView = template.findViewById(R.id.date_display)
-                            val imgDelete: ImageView = template.findViewById(R.id.delete_icon)
-                            val imgEdit: ImageView = template.findViewById(R.id.edit_icon)
+                            val lblTitle: TextView = template.findViewById(R.id.entry_title)
 
-                            // Set default values
-                            lblContent.text = record.getString("journal_entry") ?: "No Entry"
-
-                            val recordId = record.id
-
-                            // Handle delete button click
-                            imgDelete.setOnClickListener {
-                                AlertDialog.Builder(this@display_scroll)
-                                    .setTitle("Delete Notification")
-                                    .setMessage("Are you sure you want to delete this post?")
-                                    .setPositiveButton("Yes") { _, _ ->
-                                        conn.collection("journal_entries").document(recordId).delete()
-                                            .addOnSuccessListener {
-                                                layout.removeView(template)
-                                            }.addOnFailureListener {
-                                                Log.e("DEBUG", "Failed to delete record: ${it.message}")
-                                            }
-                                    }
-                                    .setNegativeButton("No", null)
-                                    .show()
-                            }
+                            // Set preview text for entry display
+                            val title = record.getString("title") ?: "Untitled"
+                            val content = record.getString("journal_entry") ?: "No Content"
+                            val preview = if (content.length > 50) content.substring(0, 50) + "..." else content
+                            lblContent.text = "$preview"
+                            lblTitle.text = "$title"
 
                             // Handle date formatting
                             val createdAt = record.getString("created_at")
                             if (!createdAt.isNullOrEmpty()) {
                                 try {
                                     val createdDate = LocalDateTime.parse(createdAt, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-                                    lblDate.text = createdDate.format(DateTimeFormatter.ofPattern("MMM dd, hh:mm a"))
+                                    lblDate.text = createdDate.format(DateTimeFormatter.ofPattern("MMM dd, yyyy\nhh:mm a"))
                                 } catch (e: DateTimeParseException) {
                                     lblDate.text = "Invalid Date"
                                     Log.e("DEBUG", "Date parsing error: ${e.message}")

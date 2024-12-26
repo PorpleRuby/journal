@@ -2,6 +2,7 @@ package com.example.journal
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -11,7 +12,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import android.content.Intent
-
+import android.widget.ImageView
 
 class entry_form : AppCompatActivity() {
 
@@ -21,20 +22,25 @@ class entry_form : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_entry_form)
         enableEdgeToEdge()
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
+        val title: EditText = findViewById(R.id.title_field)
         val entry: EditText = findViewById(R.id.content_field)
         val submitEntry: Button = findViewById(R.id.submit_entry)
+        val backBtn: ImageView = findViewById(R.id.back_entry_btn)
 
         submitEntry.setOnClickListener {
+            val diaryTitle = title.text.toString().ifEmpty { "Untitled" } // Use "Untitled" if no title is provided
             val diaryEntry = entry.text.toString()
 
-            // Store the diary entry without location
+            // Store the diary entry with title and date
             val newEntry = hashMapOf(
+                "title" to diaryTitle,
                 "journal_entry" to diaryEntry,
                 "created_at" to LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
             )
@@ -46,5 +52,31 @@ class entry_form : AppCompatActivity() {
             val intent = Intent(this, display_scroll::class.java)
             startActivity(intent)
         }
+
+        backBtn.setOnClickListener {
+            if (entry.text.isNotEmpty() || title.text.isNotEmpty()) {
+                // Show discard confirmation dialog
+                showDiscardDialog()
+            } else {
+                // Navigate back without confirmation if there's no text
+                val intent = Intent(this, display_scroll::class.java)
+                startActivity(intent)
+            }
+        }
+    }
+
+    private fun showDiscardDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage("Discard writing?")
+            .setPositiveButton("Yes") { _, _ ->
+                // Navigate back to the previous activity
+                val intent = Intent(this, display_scroll::class.java)
+                startActivity(intent)
+            }
+            .setNegativeButton("No") { dialog, _ ->
+                // Dismiss the dialog
+                dialog.dismiss()
+            }
+        builder.create().show()
     }
 }
