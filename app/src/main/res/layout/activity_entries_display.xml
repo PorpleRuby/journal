@@ -29,6 +29,7 @@
             <!-- Example of a single entry -->
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_view"
                 android:layout_width="wrap_content"
                 android:layout_height="120dp"
                 app:cardBackgroundColor="#EDECE5"

@@ -15,6 +15,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import android.content.Intent
+import androidx.cardview.widget.CardView
 
 class display_scroll : AppCompatActivity() {
 
@@ -47,6 +48,7 @@ class display_scroll : AppCompatActivity() {
                     val lblDate: TextView = template.findViewById(R.id.date_display)
                     val imgDelete: ImageView = template.findViewById(R.id.delete_icon)
                     val lblTitle: TextView = template.findViewById(R.id.entry_title)
+                    val cardView: CardView = template.findViewById(R.id.card_view)
 
                     // Set default values for image resources
                     imgDelete.setImageResource(R.drawable.trash)
@@ -59,6 +61,20 @@ class display_scroll : AppCompatActivity() {
                     // Set Title and Preview for display
                     lblContent.text = "$preview"
                     lblTitle.text = "$title"
+
+                    // Set the CardView OnClickListener
+                    cardView.setOnClickListener {
+                        // Create an Intent to navigate to EntryDetailActivity
+                        val intent = Intent(this, EntryDetailActivity::class.java)
+
+                        // Pass the necessary data (title, content, date) using intent
+                        intent.putExtra("title", title)
+                        intent.putExtra("journal_entry", content)
+                        intent.putExtra("date", date)
+
+                        // Start the activity
+                        startActivity(intent)
+                    }
 
                     // Handle delete button click
                     imgDelete.setOnClickListener {
@@ -90,14 +106,6 @@ class display_scroll : AppCompatActivity() {
                         }
                     } else {
                         lblDate.text = "No Date Provided"
-                    }
-
-                    template.setOnClickListener {
-                        val intent = Intent(this, EntryDetailActivity::class.java)
-                        intent.putExtra("title", title)
-                        intent.putExtra("journal_entry", content)
-                        intent.putExtra("date", lblDate.text.toString())
-                        startActivity(intent)
                     }
 
                     // Add the inflated view to the layout
