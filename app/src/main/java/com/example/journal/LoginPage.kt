@@ -2,6 +2,7 @@ package com.example.journal
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.widget.*
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 class LoginPage : AppCompatActivity() {
     val conn = FirebaseFirestore.getInstance()
     private lateinit var mAuth: FirebaseAuth
+    private var loginAttempts = 3 // max amount of login attempts, will regenerate after timer ends
+    private val timeout = 30000L // 30 sec timeout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +34,6 @@ class LoginPage : AppCompatActivity() {
         var lblLoginErr: TextView = findViewById(R.id.loginERR)
         var lblReg: TextView = findViewById(R.id.reg2)
         var btnLogin: Button = findViewById(R.id.btnLogin)
-        // var counter = 3 // login attempts before disabling login button
 
         // clicked register button
         lblReg.setOnClickListener {
@@ -60,13 +62,23 @@ class LoginPage : AppCompatActivity() {
                     }
                     // Vague on what is incorrect for security measures
                     else {
-                        lblLoginErr.text = "Email or password is incorrect."
-                        /* counter -= 1
-                        if (counter == 0) {
-                            Handler().postDelayed(
-                                { btnLogin.setEnabled(false) }, 5000 //Login button disabled for 5 sec
-                            )
-                        } */
+                        loginAttempts--
+                        lblLoginErr.text = "Email or password is incorrect. You have only "+loginAttempts+" before being timed out."
+                        logEmail.text = null
+                        logPass.text = null
+
+                        if (loginAttempts <= 0) {
+                            // Disable the button
+                            btnLogin.isEnabled = false
+                            lblLoginErr.text = "Too many failed attempts. Please wait 30 seconds."
+
+                            // Re-enable after timeout
+                            Handler().postDelayed({
+                                loginAttempts = 3 // Reset attempts
+                                btnLogin.isEnabled = true
+                                lblLoginErr.text = ""
+                            }, timeout)
+                        }
                     }
                 }
         }
