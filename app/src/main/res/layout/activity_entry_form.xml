@@ -106,7 +106,7 @@
                     android:layout_height="342dp"
                     android:layout_gravity="left"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="67dp"
+                    android:layout_marginTop="100dp"
                     android:breakStrategy="simple"
                     android:clickable="false"
                     android:focusableInTouchMode="true"
@@ -116,6 +116,7 @@
                     android:inputType="textMultiLine"
                     android:paddingStart="10dp"
                     android:paddingLeft="10dp"
+                    android:paddingTop="0dp"
                     android:scrollHorizontally="false"
                     android:textColor="#2E3D40"
                     android:textSize="17sp" />

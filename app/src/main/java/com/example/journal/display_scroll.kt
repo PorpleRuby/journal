@@ -1,5 +1,6 @@
 package com.example.journal
 
+
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
+import android.content.Intent
 
 class display_scroll : AppCompatActivity() {
 
@@ -90,6 +92,14 @@ class display_scroll : AppCompatActivity() {
                         lblDate.text = "No Date Provided"
                     }
 
+                    template.setOnClickListener {
+                        val intent = Intent(this, EntryDetailActivity::class.java)
+                        intent.putExtra("title", title)
+                        intent.putExtra("journal_entry", content)
+                        intent.putExtra("date", lblDate.text.toString())
+                        startActivity(intent)
+                    }
+
                     // Add the inflated view to the layout
                     layout.addView(template)
                 }
@@ -103,7 +113,9 @@ class display_scroll : AppCompatActivity() {
                     override fun onQueryTextChange(searchinput: String?): Boolean {
                         val searchInput = searchinput ?: ""
                         val filteredPost = records.filter {
-                            it.getString("journal_entry")?.contains(searchInput, true) == true
+                            val entryMatches = it.getString("journal_entry")?.contains(searchInput, true) == true
+                            val titleMatches = it.getString("title")?.contains(searchInput, true) == true
+                            entryMatches || titleMatches
                         }
 
                         layout.removeAllViews()
@@ -134,6 +146,14 @@ class display_scroll : AppCompatActivity() {
                                 }
                             } else {
                                 lblDate.text = "No Date Provided"
+                            }
+
+                            template.setOnClickListener {
+                                val intent = Intent(this@display_scroll, EntryDetailActivity::class.java)
+                                intent.putExtra("title", title)
+                                intent.putExtra("journal_entry", content)
+                                intent.putExtra("date", lblDate.text.toString())
+                                startActivity(intent)
                             }
 
                             // Add the inflated view to the layout
