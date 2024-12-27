@@ -7,13 +7,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.auth.FirebaseAuth
-
+import com.google.firebase.firestore.FirebaseFirestore
 
 class RegistrationPage : AppCompatActivity() {
-    val conn = FirebaseFirestore.getInstance()
+    private val conn = FirebaseFirestore.getInstance()
     private lateinit var mAuth: FirebaseAuth
+
+    // Replace this with the URL of your hosted default profile picture
+    private val DEFAULT_PROFILE_PICTURE_URL = "https://ph.pinterest.com/pin/665758757423275730/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,15 +28,15 @@ class RegistrationPage : AppCompatActivity() {
             insets
         }
 
-        var loginBtn2: TextView = findViewById(R.id.loginBtn2)
-        var txtemail: EditText = findViewById(R.id.regEmail)
-        var txtfname: EditText = findViewById(R.id.regUsername)
-        var txtpass: EditText = findViewById(R.id.regPass)
-        var txtcpass: EditText = findViewById(R.id.regCPass)
-        var lblErEmail: TextView = findViewById(R.id.regERREmail)
-        var lblErPass: TextView = findViewById(R.id.regERRPass)
-        var lblErCPass: TextView = findViewById(R.id.regERRCPass)
-        var btnSignup: Button = findViewById(R.id.btnSignup)
+        val loginBtn2: TextView = findViewById(R.id.loginBtn2)
+        val txtemail: EditText = findViewById(R.id.regEmail)
+        val txtfname: EditText = findViewById(R.id.regFullname)
+        val txtpass: EditText = findViewById(R.id.regPass)
+        val txtcpass: EditText = findViewById(R.id.regCPass)
+        val lblErEmail: TextView = findViewById(R.id.regERREmail)
+        val lblErPass: TextView = findViewById(R.id.regERRPass)
+        val lblErCPass: TextView = findViewById(R.id.regERRCPass)
+        val btnSignup: Button = findViewById(R.id.btnSignup)
 
         loginBtn2.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
@@ -74,7 +76,6 @@ class RegistrationPage : AppCompatActivity() {
                             lblErEmail.text = "An account with this email already exists."
                             txtemail.text = null
                         } else {
-                            // Proceed to register the user
                             mAuth.createUserWithEmailAndPassword(email, pass)
                                 .addOnCompleteListener(this) { task ->
                                     if (task.isSuccessful) {
@@ -85,7 +86,8 @@ class RegistrationPage : AppCompatActivity() {
                                                 "user_id" to uid,
                                                 "email" to email,
                                                 "fullname" to fname,
-                                                "password" to pass
+                                                "password" to pass,
+                                                "profile_picture_url" to DEFAULT_PROFILE_PICTURE_URL
                                             )
                                             conn.collection("users").document(uid)
                                                 .set(newUser)
@@ -95,6 +97,7 @@ class RegistrationPage : AppCompatActivity() {
                                                         putExtra("user_id", uid)
                                                         putExtra("fullname", fname)
                                                         putExtra("email", email)
+                                                        putExtra("profile_picture_url", DEFAULT_PROFILE_PICTURE_URL)
                                                     }
                                                     startActivity(intent)
                                                     finish()
