@@ -12,9 +12,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class LoginPage : AppCompatActivity() {
-    val conn = FirebaseFirestore.getInstance()
+    private val conn = FirebaseFirestore.getInstance()
     private lateinit var mAuth: FirebaseAuth
-    private var loginAttempts = 3 // max amount of login attempts, will regenerate after timer ends
+    private var loginAttempts = 3 // max amount of login attempts
     private val timeout = 30000L // 30 sec timeout
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,58 +28,66 @@ class LoginPage : AppCompatActivity() {
             insets
         }
 
-        // things in the layout
-        var logEmail: EditText = findViewById(R.id.loginEmail)
-        var logPass: EditText = findViewById(R.id.loginPass)
-        var lblLoginErr: TextView = findViewById(R.id.loginERR)
-        var lblReg: TextView = findViewById(R.id.reg2)
-        var btnLogin: Button = findViewById(R.id.btnLogin)
+        val logEmail: EditText = findViewById(R.id.loginEmail)
+        val logPass: EditText = findViewById(R.id.loginPass)
+        val lblLoginErr: TextView = findViewById(R.id.loginERR)
+        val lblReg: TextView = findViewById(R.id.reg2)
+        val btnLogin: Button = findViewById(R.id.btnLogin)
 
-        // clicked register button
         lblReg.setOnClickListener {
             val intent = Intent(this, RegistrationPage::class.java)
             startActivity(intent)
         }
 
         btnLogin.setOnClickListener {
-            var email = logEmail.text.toString()
-            var pass = logPass.text.toString()
+            val email = logEmail.text.toString()
+            val pass = logPass.text.toString()
+
             conn.collection("users")
-                .whereEqualTo("email", email).whereEqualTo("password", pass)
+                .whereEqualTo("email", email)
+                .whereEqualTo("password", pass) // Not secure; use Firebase Authentication instead.
                 .get()
                 .addOnSuccessListener { users ->
-                    // Account is there, I'm supposed to make this more complicated probably but I don't know what to use
                     if (!users.isEmpty) {
+                        val userDoc = users.documents[0]
+                        val userUID = userDoc.id
+                        val fullname = userDoc.getString("fullname") ?: "No name found"
+                        val userEmail = userDoc.getString("email") ?: "No email found"
+
+                        // Proceed with Firebase Authentication
                         mAuth.signInWithEmailAndPassword(email, pass)
                             .addOnCompleteListener(this) { task ->
                                 if (task.isSuccessful) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    val user = mAuth.currentUser
+                                    // Pass data to ProfilePage
+                                    val intent = Intent(this, ProfilePage::class.java).apply {
+                                        putExtra("user_id", userUID)
+                                        putExtra("fullname", fullname)
+                                        putExtra("email", userEmail)
+                                    }
+                                    startActivity(intent)
+                                    finish()
+                                } else {
+                                    lblLoginErr.text = "Authentication failed. Try again."
                                 }
                             }
-                        val intent = Intent(this, ProfilePage::class.java)
-                        startActivity(intent)
-                    }
-                    // Vague on what is incorrect for security measures
-                    else {
+                    } else {
+                        // Handle incorrect credentials
                         loginAttempts--
-                        lblLoginErr.text = "Email or password is incorrect. You have only "+loginAttempts+" before being timed out."
-                        logEmail.text = null
-                        logPass.text = null
+                        lblLoginErr.text = "Incorrect email or password." + loginAttempts + " attempts left."
 
                         if (loginAttempts <= 0) {
-                            // Disable the button
                             btnLogin.isEnabled = false
                             lblLoginErr.text = "Too many failed attempts. Please wait 30 seconds."
-
-                            // Re-enable after timeout
                             Handler().postDelayed({
-                                loginAttempts = 3 // Reset attempts
+                                loginAttempts = 3
                                 btnLogin.isEnabled = true
                                 lblLoginErr.text = ""
                             }, timeout)
                         }
                     }
+                }
+                .addOnFailureListener {
+                    lblLoginErr.text = "An error occurred. Please try again later."
                 }
         }
     }
