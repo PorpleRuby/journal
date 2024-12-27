@@ -16,8 +16,11 @@
         android:theme="@style/Theme.Journal"
         tools:targetApi="31">
         <activity
+            android:name=".EntryDetailActivity"
+            android:exported="true" />
+        <activity
             android:name=".dialog_edit_entry"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".entriesDisplay"
             android:exported="true" />

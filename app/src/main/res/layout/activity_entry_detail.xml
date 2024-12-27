@@ -5,10 +5,10 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".entry_form">
+    tools:context=".EntryDetailActivity">
 
     <ScrollView
-        android:id="@+id/scroll_entry"
+        android:id="@+id/scroll_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FAF9F5"
@@ -36,7 +36,7 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/back_entry_btn"
+                        android:id="@+id/back_detail_btn"
                         android:layout_width="0dp"
                         android:layout_height="26dp"
                         android:layout_gravity="center"
@@ -44,7 +44,7 @@
                         app:srcCompat="@drawable/baseline_arrow_back_ios_24" />
 
                     <TextView
-                        android:id="@+id/entryAppTitle"
+                        android:id="@+id/detailAppTitle"
                         android:layout_width="221dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -73,64 +73,67 @@
                 app:cardCornerRadius="20dp">
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/imageView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/paper" />
 
                 <EditText
-                    android:id="@+id/title_field"
+                    android:id="@+id/detail_title"
                     style="@style/Widget.Material3.TextInputEditText.OutlinedBox.Dense"
                     android:layout_width="371dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="40dp"
-                    android:breakStrategy="simple"
-                    android:clickable="false"
-                    android:focusableInTouchMode="true"
+                    android:layout_marginTop="50dp"
                     android:fontFamily="serif"
                     android:gravity="start|top"
                     android:hint="Untitled Entry"
-                    android:inputType="textMultiLine"
-                    android:paddingStart="10dp"
-                    android:paddingLeft="10dp"
-                    android:scrollHorizontally="false"
+                    android:paddingBottom="0dp"
                     android:textColor="#2E3D40"
                     android:textSize="27sp" />
 
                 <EditText
-                    android:id="@+id/content_field"
+                    android:id="@+id/detail_content"
                     style="@style/Widget.Material3.AutoCompleteTextView.FilledBox"
                     android:layout_width="368dp"
                     android:layout_height="342dp"
                     android:layout_gravity="left"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="100dp"
-                    android:breakStrategy="simple"
-                    android:clickable="false"
-                    android:focusableInTouchMode="true"
                     android:fontFamily="serif"
                     android:gravity="start|top"
                     android:hint="Describe your day or your feelings..."
-                    android:inputType="textMultiLine"
-                    android:paddingStart="10dp"
-                    android:paddingLeft="10dp"
                     android:paddingTop="0dp"
-                    android:scrollHorizontally="false"
                     android:textColor="#2E3D40"
                     android:textSize="17sp" />
+
+
+
+                <TextView
+                    android:id="@+id/detail_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_margin="16dp"
+                    android:fontFamily="sans-serif"
+                    android:gravity="end"
+                    android:text="Date: Unknown"
+                    android:textColor="#888888"
+                    android:textSize="14sp" />
+
             </androidx.cardview.widget.CardView>
 
             <Button
-                android:id="@+id/submit_entry"
-                android:layout_width="169dp"
+                android:id="@+id/save_button"
+                android:layout_width="223dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:backgroundTint="#EFB8B6"
-                android:text="Submit"
-                android:textSize="19sp"
-                android:visibility="gone" />
+                android:text="Save Changes"
+
+                android:textSize="19sp" />
+
         </LinearLayout>
     </ScrollView>
 

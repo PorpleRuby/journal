@@ -74,7 +74,7 @@
                     android:layout_margin="5dp"
                     android:ems="10"
                     android:hint="Email"
-                    android:inputType="text|textEmailAddress" />
+                    android:inputType="text" />
             </androidx.cardview.widget.CardView>
 
             <TextView
@@ -89,13 +89,13 @@
                 app:cardCornerRadius="15dp">
 
                 <EditText
-                    android:id="@+id/regFullname"
+                    android:id="@+id/regUsername"
                     android:layout_width="300dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:ems="10"
-                    android:hint="Full Name"
+                    android:hint="Username"
                     android:inputType="text" />
             </androidx.cardview.widget.CardView>
 
@@ -118,7 +118,7 @@
                     android:layout_margin="5dp"
                     android:ems="10"
                     android:hint="Password"
-                    android:inputType="text|textPassword" />
+                    android:inputType="text" />
             </androidx.cardview.widget.CardView>
 
             <TextView
@@ -140,7 +140,7 @@
                     android:layout_margin="5dp"
                     android:ems="10"
                     android:hint="Confirm Password"
-                    android:inputType="text|textPassword" />
+                    android:inputType="text" />
             </androidx.cardview.widget.CardView>
 
             <TextView

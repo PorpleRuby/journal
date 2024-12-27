@@ -1,5 +1,6 @@
 package com.example.journal
 
+
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +14,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
+import android.content.Intent
+import androidx.cardview.widget.CardView
 
 class display_scroll : AppCompatActivity() {
 
@@ -45,6 +48,7 @@ class display_scroll : AppCompatActivity() {
                     val lblDate: TextView = template.findViewById(R.id.date_display)
                     val imgDelete: ImageView = template.findViewById(R.id.delete_icon)
                     val lblTitle: TextView = template.findViewById(R.id.entry_title)
+                    val cardView: CardView = template.findViewById(R.id.card_view)
 
                     // Set default values for image resources
                     imgDelete.setImageResource(R.drawable.trash)
@@ -57,6 +61,16 @@ class display_scroll : AppCompatActivity() {
                     // Set Title and Preview for display
                     lblContent.text = "$preview"
                     lblTitle.text = "$title"
+
+                    // Set the CardView OnClickListener
+                    cardView.setOnClickListener {
+                        val recordId = record.id // Get the Firestore document ID
+                        val intent = Intent(this, EntryDetailActivity::class.java)
+
+                        // Pass the record ID to the EntryDetailActivity
+                        intent.putExtra("recordId", recordId)
+                        startActivity(intent)
+                    }
 
                     // Handle delete button click
                     imgDelete.setOnClickListener {
@@ -103,7 +117,9 @@ class display_scroll : AppCompatActivity() {
                     override fun onQueryTextChange(searchinput: String?): Boolean {
                         val searchInput = searchinput ?: ""
                         val filteredPost = records.filter {
-                            it.getString("journal_entry")?.contains(searchInput, true) == true
+                            val entryMatches = it.getString("journal_entry")?.contains(searchInput, true) == true
+                            val titleMatches = it.getString("title")?.contains(searchInput, true) == true
+                            entryMatches || titleMatches
                         }
 
                         layout.removeAllViews()
@@ -134,6 +150,14 @@ class display_scroll : AppCompatActivity() {
                                 }
                             } else {
                                 lblDate.text = "No Date Provided"
+                            }
+
+                            template.setOnClickListener {
+                                val intent = Intent(this@display_scroll, EntryDetailActivity::class.java)
+                                intent.putExtra("title", title)
+                                intent.putExtra("journal_entry", content)
+                                intent.putExtra("date", lblDate.text.toString())
+                                startActivity(intent)
                             }
 
                             // Add the inflated view to the layout
