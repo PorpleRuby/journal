@@ -28,7 +28,7 @@ class RegistrationPage : AppCompatActivity() {
 
         var loginBtn2: TextView = findViewById(R.id.loginBtn2)
         var txtemail: EditText = findViewById(R.id.regEmail)
-        var txtfname: EditText = findViewById(R.id.regFullname)
+        var txtfname: EditText = findViewById(R.id.regUsername)
         var txtpass: EditText = findViewById(R.id.regPass)
         var txtcpass: EditText = findViewById(R.id.regCPass)
         var lblErEmail: TextView = findViewById(R.id.regERREmail)
