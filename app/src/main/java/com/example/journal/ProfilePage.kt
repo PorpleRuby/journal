@@ -53,7 +53,8 @@ class ProfilePage : AppCompatActivity() {
         showUserData();
 
         btnEdit.setOnClickListener {
-
+            val intent = Intent(this, LoginPage::class.java)
+            startActivity(intent)
         }
 
         btnLogout.setOnClickListener {
