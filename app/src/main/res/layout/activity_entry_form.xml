@@ -129,7 +129,8 @@
                 android:layout_gravity="center"
                 android:backgroundTint="#EFB8B6"
                 android:text="Submit"
-                android:textSize="19sp" />
+                android:textSize="19sp"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 
