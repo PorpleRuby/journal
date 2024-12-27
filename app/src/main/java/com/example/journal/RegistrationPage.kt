@@ -42,10 +42,10 @@ class RegistrationPage : AppCompatActivity() {
         }
 
         btnSignup.setOnClickListener {
-            var email = txtemail.text.toString()
-            var fname = txtfname.text.toString()
-            var pass = txtpass.text.toString()
-            var cpass = txtcpass.text.toString()
+            val email = txtemail.text.toString()
+            val fname = txtfname.text.toString()
+            val pass = txtpass.text.toString()
+            val cpass = txtcpass.text.toString()
             var valid = true
 
             if (email.isEmpty() || fname.isEmpty() || pass.isEmpty()) {
@@ -55,65 +55,72 @@ class RegistrationPage : AppCompatActivity() {
 
             if (pass.length < 8 || !pass.contains("[A-Za-z0-9!\"#$%&'()*+,-./:;\\\\<=>?@\\[\\]^_`{|}~]".toRegex())) {
                 lblErPass.text =
-                    "The password does not follow the policy. It must have a minimum of 8 characters, have an uppercase, lowercase, and special character, and a number."
+                    "The password does not follow the policy. It must have a minimum of 8 characters, have an uppercase, lowercase, special character, and a number."
                 valid = false
             }
-            if (pass != cpass && pass.length >= 8) {
+            if (pass != cpass) {
                 lblErCPass.text = "The passwords do not match. Please try again."
                 txtpass.text = null
                 txtcpass.text = null
                 valid = false
             }
 
-            conn.collection("users")
-                .whereEqualTo("email", email)
-                .get()
-                .addOnSuccessListener { users ->
-                    if (!users.isEmpty) {
-                        // Username already exists
-                        lblErEmail.text = "An account with this email already exists."
-                        txtemail.text = null
-                        valid = false
-                    }
-
-                    if (valid) {
-                        conn.collection("users")
-                            .whereEqualTo("email", email)
-                            .get()
-                            .addOnSuccessListener { users ->
-                                if (valid) {
-                                    // Create user in Firebase Authentication
-                                    mAuth.createUserWithEmailAndPassword(email, pass)
-                                        .addOnCompleteListener(this) { task ->
-                                            if (task.isSuccessful) {
-                                                // Registration successful, get Firebase Auth UID
-                                                val user = mAuth.currentUser
-                                                val uid = user?.uid
-
-                                                // Add user data to Firestore with Firebase Auth UID
-                                                if (uid != null) {
-                                                    val newUser = hashMapOf(
-                                                        "user_id" to uid,
-                                                        "email" to email,
-                                                        "fullname" to fname,
-                                                        "password" to pass
-                                                    )
-                                                    conn.collection("users").document(uid)
-                                                        .set(newUser)
-                                                        .addOnSuccessListener {
-                                                            val intent = Intent(
-                                                                this,
-                                                                ProfilePage::class.java
-                                                            )
-                                                            startActivity(intent)
-                                                        }
+            if (valid) {
+                conn.collection("users")
+                    .whereEqualTo("email", email)
+                    .get()
+                    .addOnSuccessListener { users ->
+                        if (!users.isEmpty) {
+                            lblErEmail.text = "An account with this email already exists."
+                            txtemail.text = null
+                        } else {
+                            // Proceed to register the user
+                            mAuth.createUserWithEmailAndPassword(email, pass)
+                                .addOnCompleteListener(this) { task ->
+                                    if (task.isSuccessful) {
+                                        val user = mAuth.currentUser
+                                        val uid = user?.uid
+                                        if (uid != null) {
+                                            val newUser = hashMapOf(
+                                                "user_id" to uid,
+                                                "email" to email,
+                                                "fullname" to fname,
+                                                "password" to pass
+                                            )
+                                            conn.collection("users").document(uid)
+                                                .set(newUser)
+                                                .addOnSuccessListener {
+                                                    // Redirect to ProfilePage
+                                                    val intent = Intent(this, ProfilePage::class.java).apply {
+                                                        putExtra("user_id", uid)
+                                                        putExtra("fullname", fname)
+                                                        putExtra("email", email)
+                                                    }
+                                                    startActivity(intent)
+                                                    finish()
                                                 }
-                                            }
+                                                .addOnFailureListener { e ->
+                                                    Toast.makeText(
+                                                        this,
+                                                        "Failed to save user data: ${e.message}",
+                                                        Toast.LENGTH_LONG
+                                                    ).show()
+                                                }
                                         }
+                                    } else {
+                                        Toast.makeText(
+                                            this,
+                                            "Registration failed: ${task.exception?.message}",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    }
                                 }
-                            }
+                        }
                     }
-                }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "Error checking email: ${e.message}", Toast.LENGTH_LONG).show()
+                    }
+            }
         }
     }
 }
