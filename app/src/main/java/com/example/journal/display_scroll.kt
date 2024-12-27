@@ -64,15 +64,11 @@ class display_scroll : AppCompatActivity() {
 
                     // Set the CardView OnClickListener
                     cardView.setOnClickListener {
-                        // Create an Intent to navigate to EntryDetailActivity
+                        val recordId = record.id // Get the Firestore document ID
                         val intent = Intent(this, EntryDetailActivity::class.java)
 
-                        // Pass the necessary data (title, content, date) using intent
-                        intent.putExtra("title", title)
-                        intent.putExtra("journal_entry", content)
-                        intent.putExtra("date", date)
-
-                        // Start the activity
+                        // Pass the record ID to the EntryDetailActivity
+                        intent.putExtra("recordId", recordId)
                         startActivity(intent)
                     }
 
