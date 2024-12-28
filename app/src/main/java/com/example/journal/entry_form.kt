@@ -13,10 +13,12 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import android.content.Intent
 import android.widget.ImageView
+import com.google.firebase.auth.FirebaseAuth
 
 class entry_form : AppCompatActivity() {
 
-    val conn = FirebaseFirestore.getInstance()
+    private val conn = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance() // Firebase Auth instance
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,19 +40,29 @@ class entry_form : AppCompatActivity() {
             val diaryTitle = title.text.toString().ifEmpty { "Untitled" } // Use "Untitled" if no title is provided
             val diaryEntry = entry.text.toString()
 
-            // Store the diary entry with title and date
-            val newEntry = hashMapOf(
-                "title" to diaryTitle,
-                "journal_entry" to diaryEntry,
-                "created_at" to LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-            )
+            // Get the current user ID
+            val currentUser = auth.currentUser
+            val userId = currentUser?.uid
 
-            // Save to Firestore
-            conn.collection("journal_entries").add(newEntry)
+            if (userId != null) {
+                // Store the diary entry with title, date, and user ID
+                val newEntry = hashMapOf(
+                    "title" to diaryTitle,
+                    "journal_entry" to diaryEntry,
+                    "created_at" to LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                    "user_id" to userId // Associate the entry with the user
+                )
 
-            // Navigate to another activity
-            val intent = Intent(this, display_scroll::class.java)
-            startActivity(intent)
+                // Save to Firestore
+                conn.collection("journal_entries").add(newEntry)
+
+                // Navigate to another activity
+                val intent = Intent(this, display_scroll::class.java)
+                startActivity(intent)
+            } else {
+                // Handle the case where the user is not authenticated
+                showErrorDialog("You must be logged in to add an entry.")
+            }
         }
 
         backBtn.setOnClickListener {
@@ -77,6 +89,13 @@ class entry_form : AppCompatActivity() {
                 // Dismiss the dialog
                 dialog.dismiss()
             }
+        builder.create().show()
+    }
+
+    private fun showErrorDialog(message: String) {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage(message)
+            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
         builder.create().show()
     }
 }
