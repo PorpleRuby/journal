@@ -35,6 +35,7 @@ class ProfilePage : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var imagePickLauncher: ActivityResultLauncher<Intent>
     private var selectedImageUri: Uri? = null
+    private var userUID: String? = null // Declare userUID at the class level
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,9 +43,11 @@ class ProfilePage : AppCompatActivity() {
         imagePickLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data = result.data
-                data?.data?.let { uri ->
-                    selectedImageUri = uri
-                    setProfilePic(this, selectedImageUri, pfp)
+                val selectedImageUri = data?.data
+                if (selectedImageUri != null) {
+                    userUID?.let {
+                        setProfilePic(it, selectedImageUri)
+                    }
                 }
             }
         }
@@ -71,8 +74,13 @@ class ProfilePage : AppCompatActivity() {
         showUserData()
 
         btnEdit.setOnClickListener {
-            val intent = Intent(this, LoginPage::class.java)
-            startActivity(intent)
+            userUID?.let { uid -> // Use a safe call to ensure `userUID` is not null
+                val intent = Intent(this, EditProfile::class.java)
+                intent.putExtra("user_id", uid) // Pass the user ID
+                startActivity(intent)
+            } ?: run {
+                Toast.makeText(this, "User ID not available.", Toast.LENGTH_SHORT).show()
+            }
         }
 
         btnLogout.setOnClickListener {
@@ -101,33 +109,52 @@ class ProfilePage : AppCompatActivity() {
     }
 
     private fun showUserData() {
-        val userUID = intent.getStringExtra("user_id")
-        val profilePicUrl = intent.getStringExtra("profile_picture_url")
+        userUID = mAuth.currentUser?.uid // Initialize userUID from FirebaseAuth
 
         if (userUID != null) {
-            conn.collection("users").document(userUID).get()
+            conn.collection("users").document(userUID!!).get()
                 .addOnSuccessListener { document ->
                     if (document.exists()) {
-                        lblFname.text = document.getString("fullname") ?: "No name found"
-                        lblEmail.text = document.getString("email") ?: "No email found"
-                        lblUID.text = "User ID: $userUID"
-                        val imageUrl = document.getString("profile_picture_url") ?: profilePicUrl
-                        Glide.with(this).load(imageUrl).circleCrop().into(pfp)
+                        val fullname = document.getString("fullname")
+                        val email = document.getString("email")
+                        val profilePicUrl = document.getString("profile_picture_url")
+
+                        lblFname.text = fullname ?: "No name found"
+                        lblEmail.text = email ?: "No email found"
+                        lblUID.text = "User ID:" + userUID
+
+                        if (profilePicUrl == "default") {
+                            // Load the default drawable
+                            pfp.setImageResource(R.drawable.cute_pfp_default)
+                        } else if (!profilePicUrl.isNullOrEmpty()) {
+                            // Load the URL image
+                            Glide.with(this).load(profilePicUrl).circleCrop().into(pfp)
+                        } else {
+                            pfp.setImageResource(R.drawable.cute_pfp_default)
+                        }
                     } else {
                         Toast.makeText(this, "User data not found!", Toast.LENGTH_SHORT).show()
                     }
                 }
-
-            } else {
-                Toast.makeText(this, "You are not logged in.", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-            }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Failed to fetch user data: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(this, "User ID is null. Unable to fetch data.", Toast.LENGTH_SHORT).show()
+        }
     }
 
-    private fun setProfilePic(context: Activity, imageUri: Uri?, imageView: ImageView) {
-        Glide.with(context).load(imageUri)
-            .apply(RequestOptions.circleCropTransform())
-            .into(imageView)
+    private fun setProfilePic(userUID: String, newImageUri: Uri) {
+        val newImageUrl = newImageUri.toString() // Get the URI of the uploaded image
+        val userRef = conn.collection("users").document(userUID)
+
+        userRef.update("profile_picture_url", newImageUrl)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Profile picture updated successfully!", Toast.LENGTH_SHORT).show()
+                Glide.with(this).load(newImageUrl).circleCrop().into(pfp) // Update the UI
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Failed to update profile picture: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 }

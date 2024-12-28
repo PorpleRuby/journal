@@ -14,9 +14,6 @@ class RegistrationPage : AppCompatActivity() {
     private val conn = FirebaseFirestore.getInstance()
     private lateinit var mAuth: FirebaseAuth
 
-    // Replace this with the URL of your hosted default profile picture
-    private val DEFAULT_PROFILE_PICTURE_URL = "https://ph.pinterest.com/pin/665758757423275730/"
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -87,7 +84,7 @@ class RegistrationPage : AppCompatActivity() {
                                                 "email" to email,
                                                 "fullname" to fname,
                                                 "password" to pass,
-                                                "profile_picture_url" to DEFAULT_PROFILE_PICTURE_URL
+                                                "profile_picture_url" to "default"
                                             )
                                             conn.collection("users").document(uid)
                                                 .set(newUser)
@@ -97,7 +94,6 @@ class RegistrationPage : AppCompatActivity() {
                                                         putExtra("user_id", uid)
                                                         putExtra("fullname", fname)
                                                         putExtra("email", email)
-                                                        putExtra("profile_picture_url", DEFAULT_PROFILE_PICTURE_URL)
                                                     }
                                                     startActivity(intent)
                                                     finish()

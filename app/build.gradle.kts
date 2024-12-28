@@ -44,6 +44,8 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation ("com.github.dhaval2404:imagepicker:2.1")
     implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation ("androidx.appcompat:appcompat:1.1.0")
+    implementation ("com.google.android.material:material:1.0.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
