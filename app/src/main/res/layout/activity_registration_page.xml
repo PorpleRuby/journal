@@ -18,7 +18,7 @@
         android:layout_marginBottom="25dp"
         android:text="Sign Up"
         android:textColor="#FDFDFF"
-        android:textSize="48dp"
+        android:textSize="48sp"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
