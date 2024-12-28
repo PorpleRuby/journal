@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/paper"
     tools:context=".entry_form">
 
     <ScrollView
@@ -26,7 +27,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="1dp"
                 android:background="#FBFAF6">
 
                 <LinearLayout
@@ -62,30 +63,30 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_width="389dp"
-                android:layout_height="514dp"
+                android:layout_width="377dp"
+                android:layout_height="670dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginHorizontal="5dp"
-                android:layout_marginVertical="30dp"
-                android:background="#FEF5F6"
-                android:backgroundTint="#FEF5F6"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/paper"
                 android:foregroundGravity="center_horizontal"
                 app:cardCornerRadius="20dp">
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/imageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType="fitXY"
                     app:srcCompat="@drawable/paper" />
 
                 <EditText
                     android:id="@+id/title_field"
                     style="@style/Widget.Material3.TextInputEditText.OutlinedBox.Dense"
-                    android:layout_width="371dp"
+                    android:layout_width="350dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="44dp"
                     android:breakStrategy="simple"
                     android:clickable="false"
                     android:focusableInTouchMode="true"
@@ -102,11 +103,11 @@
                 <EditText
                     android:id="@+id/content_field"
                     style="@style/Widget.Material3.AutoCompleteTextView.FilledBox"
-                    android:layout_width="368dp"
+                    android:layout_width="350dp"
                     android:layout_height="342dp"
                     android:layout_gravity="left"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="100dp"
+                    android:layout_marginTop="105dp"
                     android:breakStrategy="simple"
                     android:clickable="false"
                     android:focusableInTouchMode="true"
@@ -124,13 +125,12 @@
 
             <Button
                 android:id="@+id/submit_entry"
-                android:layout_width="169dp"
-                android:layout_height="wrap_content"
+                android:layout_width="190dp"
+                android:layout_height="49dp"
                 android:layout_gravity="center"
                 android:backgroundTint="#EFB8B6"
                 android:text="Submit"
-                android:textSize="19sp"
-                android:visibility="gone" />
+                android:textSize="19sp" />
         </LinearLayout>
     </ScrollView>
 

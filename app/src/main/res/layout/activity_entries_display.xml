@@ -31,8 +31,8 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_view"
                 android:layout_width="wrap_content"
-                android:layout_height="120dp"
-                app:cardBackgroundColor="#EDECE5"
+                android:layout_height="133dp"
+                app:cardBackgroundColor="#FFFDEF"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp">
 
@@ -60,7 +60,7 @@
                         android:foregroundGravity="top"
                         android:gravity="top"
                         android:text="TextView"
-                        android:textSize="10sp" />
+                        android:textSize="12sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -101,8 +101,8 @@
 
             <ImageView
                 android:id="@+id/delete_icon"
-                android:layout_width="35dp"
-                android:layout_height="36dp"
+                android:layout_width="45dp"
+                android:layout_height="43dp"
                 android:layout_marginBottom="0dp"
                 app:srcCompat="@drawable/trash" />
 

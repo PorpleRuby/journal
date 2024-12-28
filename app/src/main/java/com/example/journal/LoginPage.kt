@@ -59,7 +59,7 @@ class LoginPage : AppCompatActivity() {
                             .addOnCompleteListener(this) { task ->
                                 if (task.isSuccessful) {
                                     // Pass data to ProfilePage
-                                    val intent = Intent(this, ProfilePage::class.java).apply {
+                                    val intent = Intent(this, display_scroll::class.java).apply {
                                         putExtra("user_id", userUID)
                                         putExtra("fullname", fullname)
                                         putExtra("email", userEmail)
