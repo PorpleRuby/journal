@@ -54,6 +54,12 @@ class display_scroll : AppCompatActivity() {
             startActivity(intent)
         }
 
+        // Navigate to profile page
+        profileBtn.setOnClickListener {
+            val intent = Intent(this, ProfilePage::class.java)
+            startActivity(intent)
+        }
+
         // Fetch data from Firestore
         conn.collection("journal_entries")
             .get()
