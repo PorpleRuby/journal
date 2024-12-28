@@ -26,7 +26,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="1dp"
                 android:background="#FBFAF6">
 
                 <LinearLayout
@@ -66,7 +66,7 @@
                 android:layout_height="514dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginHorizontal="5dp"
-                android:layout_marginVertical="30dp"
+                android:layout_marginVertical="10dp"
                 android:background="#FEF5F6"
                 android:backgroundTint="#FEF5F6"
                 android:foregroundGravity="center_horizontal"
@@ -107,7 +107,6 @@
                     android:paddingTop="0dp"
                     android:textColor="#2E3D40"
                     android:textSize="17sp" />
-
 
 
                 <TextView

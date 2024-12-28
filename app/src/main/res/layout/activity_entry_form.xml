@@ -26,7 +26,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="1dp"
                 android:background="#FBFAF6">
 
                 <LinearLayout
@@ -66,7 +66,7 @@
                 android:layout_height="514dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginHorizontal="5dp"
-                android:layout_marginVertical="30dp"
+                android:layout_marginVertical="10dp"
                 android:background="#FEF5F6"
                 android:backgroundTint="#FEF5F6"
                 android:foregroundGravity="center_horizontal"
@@ -124,13 +124,12 @@
 
             <Button
                 android:id="@+id/submit_entry"
-                android:layout_width="169dp"
-                android:layout_height="wrap_content"
+                android:layout_width="190dp"
+                android:layout_height="49dp"
                 android:layout_gravity="center"
                 android:backgroundTint="#EFB8B6"
                 android:text="Submit"
-                android:textSize="19sp"
-                android:visibility="gone" />
+                android:textSize="19sp" />
         </LinearLayout>
     </ScrollView>
 
