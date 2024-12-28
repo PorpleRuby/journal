@@ -90,6 +90,7 @@ class RegistrationPage : AppCompatActivity() {
                                                 .set(newUser)
                                                 .addOnSuccessListener {
                                                     // Redirect to ProfilePage
+                                                    Toast.makeText(this, "Registered successfully.", Toast.LENGTH_SHORT).show()
                                                     val intent = Intent(this, ProfilePage::class.java).apply {
                                                         putExtra("user_id", uid)
                                                         putExtra("fullname", fname)

@@ -95,7 +95,7 @@
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:ems="10"
-                    android:hint="Username"
+                    android:hint="Full Name"
                     android:inputType="text" />
             </androidx.cardview.widget.CardView>
 

@@ -45,7 +45,7 @@ class LoginPage : AppCompatActivity() {
 
             conn.collection("users")
                 .whereEqualTo("email", email)
-                .whereEqualTo("password", pass) // Not secure; use Firebase Authentication instead.
+                .whereEqualTo("password", pass)
                 .get()
                 .addOnSuccessListener { users ->
                     if (!users.isEmpty) {
@@ -64,6 +64,7 @@ class LoginPage : AppCompatActivity() {
                                         putExtra("fullname", fullname)
                                         putExtra("email", userEmail)
                                     }
+                                    Toast.makeText(this, "Logged in successfully", Toast.LENGTH_SHORT).show()
                                     startActivity(intent)
                                     finish()
                                 } else {

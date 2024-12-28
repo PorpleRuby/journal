@@ -24,7 +24,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 class ProfilePage : AppCompatActivity() {
 
     private val conn = FirebaseFirestore.getInstance()
-    private lateinit var lblUID: TextView
     private lateinit var lblFname: TextView
     private lateinit var lblEmail: TextView
     private lateinit var btnEdit: TextView
@@ -60,7 +59,6 @@ class ProfilePage : AppCompatActivity() {
             insets
         }
 
-        lblUID = findViewById(R.id.displayUID)
         lblFname = findViewById(R.id.displayFname)
         lblEmail = findViewById(R.id.displayEmail)
         pfp = findViewById(R.id.pfp)
@@ -121,7 +119,6 @@ class ProfilePage : AppCompatActivity() {
 
                         lblFname.text = fullname ?: "No name found"
                         lblEmail.text = email ?: "No email found"
-                        lblUID.text = "User ID:" + userUID
 
                         if (profilePicUrl == "default") {
                             // Load the default drawable
@@ -130,6 +127,7 @@ class ProfilePage : AppCompatActivity() {
                             // Load the URL image
                             Glide.with(this).load(profilePicUrl).circleCrop().into(pfp)
                         } else {
+                            // Fallback to the default drawable if above fails
                             pfp.setImageResource(R.drawable.cute_pfp_default)
                         }
                     } else {

@@ -96,13 +96,6 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
-                android:id="@+id/forgotPass"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Forgot Password?"
-                android:textStyle="bold" />
-
-            <TextView
                 android:id="@+id/loginERR"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
