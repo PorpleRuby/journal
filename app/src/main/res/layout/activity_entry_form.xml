@@ -80,13 +80,23 @@
                     app:srcCompat="@drawable/paper" />
 
                 <EditText
+                    android:id="@+id/mood_entry"
+                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="60dp"
+                    android:hint="Mood: Happy :>"
+                    android:textSize="17sp" />
+
+                <EditText
                     android:id="@+id/title_field"
                     style="@style/Widget.Material3.TextInputEditText.OutlinedBox.Dense"
                     android:layout_width="350dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="44dp"
+                    android:layout_marginTop="105dp"
                     android:breakStrategy="simple"
                     android:clickable="false"
                     android:focusableInTouchMode="true"
@@ -107,7 +117,7 @@
                     android:layout_height="342dp"
                     android:layout_gravity="left"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="105dp"
+                    android:layout_marginTop="165dp"
                     android:breakStrategy="simple"
                     android:clickable="false"
                     android:focusableInTouchMode="true"

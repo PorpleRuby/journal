@@ -48,7 +48,7 @@ class display_scroll : AppCompatActivity() {
 
         // Scroll to top when Home button is clicked
         homeBtn.setOnClickListener {
-            scrollView.smoothScrollTo(0, 0) // Scrolls to the top of the scrollView
+            scrollView.smoothScrollTo(0, 0)
         }
 
         // Navigate to add entry page
@@ -72,13 +72,13 @@ class display_scroll : AppCompatActivity() {
 
         // Fetch data from Firestore for the logged-in user
         conn.collection("journal_entries")
-            .whereEqualTo("user_id", userId) // Filter entries by user_id
+            .whereEqualTo("user_id", userId)
             .get()
             .addOnSuccessListener { records ->
                 val entries = records.filter { record ->
                     val createdAt = record.getString("created_at")
                     try {
-                        val createdDate = LocalDateTime.parse(createdAt, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+                        LocalDateTime.parse(createdAt, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
                         true
                     } catch (e: DateTimeParseException) {
                         false
@@ -89,14 +89,11 @@ class display_scroll : AppCompatActivity() {
                     Triple(record as QueryDocumentSnapshot, createdDate, createdAt ?: "")
                 }
 
-                // Sort entries by date in reverse chronological order (newest first)
                 val sortedEntries = entries.sortedByDescending { it.second }
-
-                layout.removeAllViews() // Clear previous views
+                layout.removeAllViews()
 
                 for ((record, createdDate, _) in sortedEntries) {
                     val template = LayoutInflater.from(this).inflate(R.layout.activity_entries_display, layout, false)
-
                     bindEntryView(template, record, createdDate)
 
                     // Set OnClickListener for CardView
@@ -105,6 +102,7 @@ class display_scroll : AppCompatActivity() {
                         val recordId = record.id
                         val intent = Intent(this, EntryDetailActivity::class.java)
                         intent.putExtra("recordId", recordId)
+                        intent.putExtra("mood", record.getString("mood")) // Pass mood
                         startActivity(intent)
                     }
 
@@ -130,11 +128,9 @@ class display_scroll : AppCompatActivity() {
                             .show()
                     }
 
-                    // Add the template to the layout
                     layout.addView(template)
                 }
 
-                // Search functionality
                 search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
                         return false
@@ -153,7 +149,7 @@ class display_scroll : AppCompatActivity() {
 
     private fun showErrorAndRedirect() {
         Toast.makeText(this, "User ID not found. Redirecting to login...", Toast.LENGTH_SHORT).show()
-        val intent = Intent(this, LoginPage::class.java) // Adjust to your login activity
+        val intent = Intent(this, LoginPage::class.java)
         startActivity(intent)
     }
 
@@ -161,13 +157,16 @@ class display_scroll : AppCompatActivity() {
         val lblContent: TextView = template.findViewById(R.id.display_entry)
         val lblDate: TextView = template.findViewById(R.id.date_display)
         val lblTitle: TextView = template.findViewById(R.id.entry_title)
+        val lblMood: TextView = template.findViewById(R.id.mood_display)
 
         val title = record.getString("title") ?: "Untitled"
         val content = record.getString("journal_entry") ?: "No Content"
+        val mood = record.getString("mood") ?: "Mood not specified"
         val preview = if (content.length > 50) content.substring(0, 50) + "..." else content
 
         lblContent.text = preview
         lblTitle.text = title
+        lblMood.text = "Mood: $mood"
         lblDate.text = createdDate.format(DateTimeFormatter.ofPattern("MMM dd, yyyy hh:mm a"))
     }
 
@@ -175,26 +174,15 @@ class display_scroll : AppCompatActivity() {
         val filteredPosts = sortedEntries.filter {
             val entryMatches = it.first.getString("journal_entry")?.contains(searchInput ?: "", true) == true
             val titleMatches = it.first.getString("title")?.contains(searchInput ?: "", true) == true
-            entryMatches || titleMatches
+            val moodMatches = it.first.getString("mood")?.contains(searchInput ?: "", true) == true
+            entryMatches || titleMatches || moodMatches
         }
 
         val layout: LinearLayout = findViewById(R.id.linearLayout)
         layout.removeAllViews()
         for ((record, createdDate, _) in filteredPosts) {
             val template = LayoutInflater.from(this).inflate(R.layout.activity_entries_display, layout, false)
-
             bindEntryView(template, record, createdDate)
-
-            // Add OnClickListener
-            template.setOnClickListener {
-                val intent = Intent(this, EntryDetailActivity::class.java)
-                intent.putExtra("title", record.getString("title"))
-                intent.putExtra("journal_entry", record.getString("journal_entry"))
-                intent.putExtra("date", createdDate.format(DateTimeFormatter.ofPattern("MMM dd, yyyy hh:mm a")))
-                startActivity(intent)
-            }
-
-            // Add the template to the layout
             layout.addView(template)
         }
     }

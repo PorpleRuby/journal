@@ -79,13 +79,23 @@
                     app:srcCompat="@drawable/paper" />
 
                 <EditText
+                    android:id="@+id/mood_entry_details"
+                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="60dp"
+                    android:hint="Mood: Happy :>"
+                    android:textSize="17sp" />
+
+                <EditText
                     android:id="@+id/detail_title"
                     style="@style/Widget.Material3.TextInputEditText.OutlinedBox.Dense"
-                    android:layout_width="345dp"
+                    android:layout_width="352dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="108dp"
                     android:fontFamily="serif"
                     android:gravity="start|top"
                     android:hint="Untitled Entry"
@@ -96,11 +106,11 @@
                 <EditText
                     android:id="@+id/detail_content"
                     style="@style/Widget.Material3.AutoCompleteTextView.FilledBox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="510dp"
+                    android:layout_width="356dp"
+                    android:layout_height="449dp"
                     android:layout_gravity="left"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="100dp"
+                    android:layout_marginTop="160dp"
                     android:fontFamily="serif"
                     android:gravity="start|top"
                     android:hint="Describe your day or your feelings..."

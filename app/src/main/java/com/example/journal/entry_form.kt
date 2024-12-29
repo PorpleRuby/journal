@@ -8,12 +8,12 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.auth.FirebaseAuth
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import android.content.Intent
-import android.widget.ImageView
-import com.google.firebase.auth.FirebaseAuth
 
 class entry_form : AppCompatActivity() {
 
@@ -33,57 +33,70 @@ class entry_form : AppCompatActivity() {
 
         val title: EditText = findViewById(R.id.title_field)
         val entry: EditText = findViewById(R.id.content_field)
+        val moodUser: EditText = findViewById(R.id.mood_entry) // Mood field
         val submitEntry: Button = findViewById(R.id.submit_entry)
         val backBtn: ImageView = findViewById(R.id.back_entry_btn)
 
         submitEntry.setOnClickListener {
-            val diaryTitle = title.text.toString().ifEmpty { "Untitled" } // Use "Untitled" if no title is provided
+            val diaryTitle = title.text.toString().ifEmpty { "Untitled" }
             val diaryEntry = entry.text.toString()
-
-            // Get the current user ID
             val currentUser = auth.currentUser
             val userId = currentUser?.uid
+            val mood = moodUser.text.toString()
 
             if (userId != null) {
-                // Store the diary entry with title, date, and user ID
                 val newEntry = hashMapOf(
                     "title" to diaryTitle,
                     "journal_entry" to diaryEntry,
+                    "mood" to mood,
                     "created_at" to LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
-                    "user_id" to userId // Associate the entry with the user
+                    "user_id" to userId
                 )
 
-                // Save to Firestore
-                conn.collection("journal_entries").add(newEntry)
-
-                // Navigate to another activity
-                val intent = Intent(this, display_scroll::class.java)
-                startActivity(intent)
+                conn.collection("journal_entries").add(newEntry).addOnSuccessListener {
+                    val intent = Intent(this, display_scroll::class.java)
+                    intent.putExtra("user_id", userId) // Pass the user_id to the next activity
+                    startActivity(intent)
+                }.addOnFailureListener {
+                    showErrorDialog("Failed to save entry. Please try again.")
+                }
             } else {
-                // Handle the case where the user is not authenticated
                 showErrorDialog("You must be logged in to add an entry.")
             }
         }
 
         backBtn.setOnClickListener {
-            if (entry.text.isNotEmpty() || title.text.isNotEmpty()) {
+            val currentUser = auth.currentUser
+            val userId = currentUser?.uid
+
+            if (entry.text.isNotEmpty() || title.text.isNotEmpty() || moodUser.text.isNotEmpty()) {
                 // Show discard confirmation dialog
-                showDiscardDialog()
+                showDiscardDialog(userId)
             } else {
                 // Navigate back without confirmation if there's no text
-                val intent = Intent(this, display_scroll::class.java)
-                startActivity(intent)
+                if (userId != null) {
+                    val intent = Intent(this, display_scroll::class.java)
+                    intent.putExtra("user_id", userId) // Pass the user_id to the next activity
+                    startActivity(intent)
+                } else {
+                    showErrorDialog("User is not logged in.")
+                }
             }
         }
     }
 
-    private fun showDiscardDialog() {
+    private fun showDiscardDialog(userId: String?) {
         val builder = AlertDialog.Builder(this)
         builder.setMessage("Discard writing?")
             .setPositiveButton("Yes") { _, _ ->
-                // Navigate back to the previous activity
-                val intent = Intent(this, display_scroll::class.java)
-                startActivity(intent)
+                // Navigate back to the previous activity with userId
+                if (userId != null) {
+                    val intent = Intent(this, display_scroll::class.java)
+                    intent.putExtra("user_id", userId) // Pass the user_id to the next activity
+                    startActivity(intent)
+                } else {
+                    showErrorDialog("User is not logged in.")
+                }
             }
             .setNegativeButton("No") { dialog, _ ->
                 // Dismiss the dialog
