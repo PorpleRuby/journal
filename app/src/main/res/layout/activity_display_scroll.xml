@@ -72,7 +72,8 @@
                 android:text="NO ENTRIES YET"
                 android:textColor="#59514F"
                 android:textSize="20sp"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                android:visibility="visible" />
         </LinearLayout>
 
 

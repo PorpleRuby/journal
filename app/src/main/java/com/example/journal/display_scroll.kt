@@ -94,9 +94,9 @@ class display_scroll : AppCompatActivity() {
 
                 // Display message if no entries are found
                 if (sortedEntries.isEmpty()) {
-                    noEntriesText.visibility = View.VISIBLE
-                } else {
                     noEntriesText.visibility = View.GONE
+                } else {
+                    noEntriesText.visibility = View.VISIBLE
                 }
 
                 // Add entries to layout
