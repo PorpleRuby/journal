@@ -13,6 +13,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#00FFFFFF"
+        android:backgroundTint="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -23,6 +25,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="180dp"
+            android:background="#00FFFFFF"
+            android:backgroundTint="#00FFFFFF"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -31,8 +35,8 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_view"
                 android:layout_width="wrap_content"
-                android:layout_height="153dp"
-                app:cardBackgroundColor="#00FFFDEF"
+                android:layout_height="150dp"
+                app:cardBackgroundColor="#00FDFCF0"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp">
 
@@ -40,7 +44,7 @@
                     android:id="@+id/imageView5"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:alpha="0.4"
+                    android:alpha="0.7"
                     android:scaleType="centerCrop"
                     app:srcCompat="@drawable/grid" />
 

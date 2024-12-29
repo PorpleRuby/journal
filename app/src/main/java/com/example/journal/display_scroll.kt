@@ -40,6 +40,7 @@ class display_scroll : AppCompatActivity() {
         }
 
         val layout: LinearLayout = findViewById(R.id.linearLayout)
+        val noEntriesText: TextView = findViewById(R.id.no_entries) // Reference to "No Entries Yet" text
         val search: SearchView = findViewById(R.id.search)
         val homeBtn: ImageView = findViewById(R.id.home_button_scroll)
         val addEntry: ImageView = findViewById(R.id.add_entry_scroll)
@@ -57,7 +58,7 @@ class display_scroll : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // redirect sa profile page
+        // redirect to profile page
         profileBtn.setOnClickListener {
             val intent = Intent(this, ProfilePage::class.java)
             startActivity(intent)
@@ -69,7 +70,7 @@ class display_scroll : AppCompatActivity() {
             return
         }
 
-        // kunin data from Firestore
+        // Fetch data from Firestore
         conn.collection("journal_entries")
             .whereEqualTo("user_id", userId)
             .get()
@@ -91,8 +92,14 @@ class display_scroll : AppCompatActivity() {
                 val sortedEntries = entries.sortedByDescending { it.second }
                 layout.removeAllViews()
 
+                // Display message if no entries are found
+                if (sortedEntries.isEmpty()) {
+                    noEntriesText.visibility = View.VISIBLE
+                } else {
+                    noEntriesText.visibility = View.GONE
+                }
 
-                //sort by date
+                // Add entries to layout
                 for ((record, createdDate, _) in sortedEntries) {
                     val template = LayoutInflater.from(this).inflate(R.layout.activity_entries_display, layout, false)
                     bindEntryView(template, record, createdDate)
@@ -132,7 +139,7 @@ class display_scroll : AppCompatActivity() {
                     layout.addView(template)
                 }
 
-                //search button
+                // Search button
                 search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
                         return false
