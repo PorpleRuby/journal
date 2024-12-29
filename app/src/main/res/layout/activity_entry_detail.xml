@@ -62,8 +62,8 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_width="377dp"
-                android:layout_height="670dp"
+                android:layout_width="386dp"
+                android:layout_height="655dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginHorizontal="5dp"
                 android:layout_marginVertical="10dp"
@@ -107,7 +107,7 @@
                     android:id="@+id/detail_content"
                     style="@style/Widget.Material3.AutoCompleteTextView.FilledBox"
                     android:layout_width="356dp"
-                    android:layout_height="449dp"
+                    android:layout_height="428dp"
                     android:layout_gravity="left"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="160dp"
