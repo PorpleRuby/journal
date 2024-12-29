@@ -46,31 +46,30 @@ class display_scroll : AppCompatActivity() {
         val profileBtn: ImageView = findViewById(R.id.profileButtonScroll)
         val scrollView: ScrollView = findViewById(R.id.scrollView2)
 
-        // Scroll to top when Home button is clicked
+        // this will scroll to the top when the home button is clicked
         homeBtn.setOnClickListener {
             scrollView.smoothScrollTo(0, 0)
         }
 
-        // Navigate to add entry page
+        // add entry
         addEntry.setOnClickListener {
             val intent = Intent(this, entry_form::class.java)
             startActivity(intent)
         }
 
-        // Navigate to profile page
+        // redirect sa profile page
         profileBtn.setOnClickListener {
             val intent = Intent(this, ProfilePage::class.java)
             startActivity(intent)
         }
 
-        // Get the user ID from the intent
         val userId = intent.getStringExtra("user_id")
         if (userId == null) {
             showErrorAndRedirect()
             return
         }
 
-        // Fetch data from Firestore for the logged-in user
+        // kunin data from Firestore
         conn.collection("journal_entries")
             .whereEqualTo("user_id", userId)
             .get()
@@ -92,6 +91,8 @@ class display_scroll : AppCompatActivity() {
                 val sortedEntries = entries.sortedByDescending { it.second }
                 layout.removeAllViews()
 
+
+                //sort by date
                 for ((record, createdDate, _) in sortedEntries) {
                     val template = LayoutInflater.from(this).inflate(R.layout.activity_entries_display, layout, false)
                     bindEntryView(template, record, createdDate)
@@ -131,6 +132,7 @@ class display_scroll : AppCompatActivity() {
                     layout.addView(template)
                 }
 
+                //search button
                 search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
                         return false
