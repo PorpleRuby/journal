@@ -49,7 +49,7 @@
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/white"
+        android:background="@drawable/cute_bg"
         app:layout_constraintBottom_toTopOf="@id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +60,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp" />
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/no_entries"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:text="NO ENTRIES YET"
+                android:textColor="#59514F"
+                android:textSize="20sp"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+
     </ScrollView>
 
     <!-- Footer Navigation -->
