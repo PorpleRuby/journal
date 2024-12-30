@@ -58,7 +58,9 @@ class ProfilePage : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
+        val homeBtn: ImageView = findViewById(R.id.home_button_scroll)
+        val addEntry: ImageView = findViewById(R.id.add_entry_scroll)
+        val profileBtn: ImageView = findViewById(R.id.profileButtonScroll)
         lblFname = findViewById(R.id.displayFname)
         lblEmail = findViewById(R.id.displayEmail)
         pfp = findViewById(R.id.pfp)
@@ -70,6 +72,26 @@ class ProfilePage : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
 
         showUserData()
+
+        // redirect to entries display
+        homeBtn.setOnClickListener {
+            val intent = Intent(this, display_scroll::class.java).apply {
+                putExtra("user_id", userUID)
+            }
+            startActivity(intent)
+        }
+
+        // add entry
+        addEntry.setOnClickListener {
+            val intent = Intent(this, entry_form::class.java)
+            startActivity(intent)
+        }
+
+        // redirect to profile page
+        profileBtn.setOnClickListener {
+            val intent = Intent(this, ProfilePage::class.java)
+            startActivity(intent)
+        }
 
         btnEdit.setOnClickListener {
             userUID?.let { uid -> // Use a safe call to ensure `userUID` is not null
