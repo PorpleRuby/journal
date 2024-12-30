@@ -139,11 +139,11 @@ class ProfilePage : AppCompatActivity() {
                         val email = document.getString("email")
                         val profilePicUrl = document.getString("profile_picture_url")
 
-                        lblFname.text = fullname ?: "No name found"
+                        lblFname.text = fullname ?: "No name found" //if credentials aren't found
                         lblEmail.text = email ?: "No email found"
 
                         if (profilePicUrl == "default") {
-                            // Load the default drawable
+                            // Load the default drawable / pfp
                             pfp.setImageResource(R.drawable.cute_pfp_default)
                         } else if (!profilePicUrl.isNullOrEmpty()) {
                             // Load the URL image
@@ -152,15 +152,8 @@ class ProfilePage : AppCompatActivity() {
                             // Fallback to the default drawable if above fails
                             pfp.setImageResource(R.drawable.cute_pfp_default)
                         }
-                    } else {
-                        Toast.makeText(this, "User data not found!", Toast.LENGTH_SHORT).show()
                     }
                 }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this, "Failed to fetch user data: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
-        } else {
-            Toast.makeText(this, "User ID is null. Unable to fetch data.", Toast.LENGTH_SHORT).show()
         }
     }
 

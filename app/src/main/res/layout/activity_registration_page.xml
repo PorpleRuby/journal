@@ -28,7 +28,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="386dp"
-        android:layout_height="420dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="13dp"
@@ -44,6 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_margin="15dp"
             android:orientation="vertical">
 
             <TextView
@@ -81,7 +82,7 @@
                 android:id="@+id/regERREmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#FF0000" />
+                android:textColor="#FFFFFF" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
@@ -103,7 +104,7 @@
                 android:id="@+id/regERRUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#FF0000" />
+                android:textColor="#FFFFFF" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
@@ -125,7 +126,7 @@
                 android:id="@+id/regERRPass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#FF0000" />
+                android:textColor="#FFFFFF" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
@@ -147,7 +148,7 @@
                 android:id="@+id/regERRCPass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#FF0000" />
+                android:textColor="#FFFFFF" />
 
         </LinearLayout>
 

@@ -1,5 +1,6 @@
 package com.example.journal
 
+import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
@@ -10,12 +11,14 @@ import android.text.InputType
 import android.widget.*
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -50,8 +53,23 @@ class EditProfile : AppCompatActivity() {
     private var originalPassword: String? = null
     private var originalProfilePicUrl: String? = null
 
+    private var userUID: String? = null // Declare userUID at the class level
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        imagePickLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = result.data
+                selectedImageUri = data?.data // Update the class-level variable
+                if (selectedImageUri != null) {
+                    userUID?.let {
+                        setProfilePic(it, selectedImageUri!!)
+                    }
+                }
+            }
+        }
+
         enableEdgeToEdge()
         setContentView(R.layout.activity_edit_profile)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -77,6 +95,16 @@ class EditProfile : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
 
         showUserData()
+
+        changePfp.setOnClickListener {
+            ImagePicker.with(this)
+                .cropSquare()
+                .compress(512)
+                .maxResultSize(512, 512)
+                .createIntent { intent ->
+                    imagePickLauncher.launch(intent)
+                }
+        }
 
         btnCopy.setOnClickListener {
             val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
@@ -139,39 +167,51 @@ class EditProfile : AppCompatActivity() {
                     }
 
                     if (valid) {
-                        val userUID = mAuth.currentUser?.uid
-                        if (userUID != null) {
-                            val updatedUser = hashMapOf(
-                                "fullname" to fname,
-                                "email" to email,
-                                "password" to pass,
-                                "profile_picture_url" to (selectedImageUri?.toString()
-                                    ?: originalProfilePicUrl ?: "default")
-                            )
-                            conn.collection("users").document(userUID).update(updatedUser as Map<String, Any>)
-                                .addOnSuccessListener {
-                                    Toast.makeText(
-                                        this,
-                                        "Profile updated successfully!",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    finish() // Return to profile page
-                                }
-                                .addOnFailureListener { e ->
-                                    Toast.makeText(
-                                        this,
-                                        "Failed to update profile: ${e.message}",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    // Revert changes
-                                    lblFname.text = Editable.Factory.getInstance()
-                                        .newEditable(originalFullName ?: "")
+                        conn.collection("users")
+                            .whereEqualTo("email", email)
+                            .get()
+                            .addOnSuccessListener { users ->
+                                if (!users.isEmpty) {
                                     lblEmail.text = Editable.Factory.getInstance()
                                         .newEditable(originalEmail ?: "")
-                                    lblPass.text = Editable.Factory.getInstance()
-                                        .newEditable(originalPassword ?: "")
+                                    errorEmail.text = "An account with this email already exists."
+                                } else {
+                                    val userUID = mAuth.currentUser?.uid
+                                    if (userUID != null) {
+                                        val updatedUser = hashMapOf(
+                                            "fullname" to fname,
+                                            "email" to email,
+                                            "password" to pass,
+                                            "profile_picture_url" to (selectedImageUri?.toString()
+                                                ?: originalProfilePicUrl ?: "default")
+                                        )
+                                        conn.collection("users").document(userUID)
+                                            .update(updatedUser as Map<String, Any>)
+                                            .addOnSuccessListener {
+                                                Toast.makeText(
+                                                    this,
+                                                    "Profile updated successfully!",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                                finish() // Return to profile page
+                                            }
+                                            .addOnFailureListener { e ->
+                                                Toast.makeText(
+                                                    this,
+                                                    "Failed to update profile: ${e.message}",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                                // Revert changes
+                                                lblFname.text = Editable.Factory.getInstance()
+                                                    .newEditable(originalFullName ?: "")
+                                                lblEmail.text = Editable.Factory.getInstance()
+                                                    .newEditable(originalEmail ?: "")
+                                                lblPass.text = Editable.Factory.getInstance()
+                                                    .newEditable(originalPassword ?: "")
+                                            }
+                                    }
                                 }
-                        }
+                            }
                     }
                 }.setNegativeButton("No", null)
                 .show()
@@ -198,7 +238,9 @@ class EditProfile : AppCompatActivity() {
                             if (originalProfilePicUrl == "default") {
                                 pfp.setImageResource(R.drawable.cute_pfp_default)
                             } else if (!originalProfilePicUrl.isNullOrEmpty()) {
-                                Glide.with(this).load(originalProfilePicUrl).circleCrop().into(pfp)
+                                Glide.with(this).load(originalProfilePicUrl).circleCrop().skipMemoryCache(true).diskCacheStrategy(
+                                    DiskCacheStrategy.NONE).into(pfp)
+
                             } else {
                                 pfp.setImageResource(R.drawable.cute_pfp_default)
                             }
@@ -211,4 +253,21 @@ class EditProfile : AppCompatActivity() {
                     }
             }
         }
+
+    private fun setProfilePic(userUID: String, newImageUri: Uri) {
+        val newImageUrl = newImageUri.toString()
+        val userRef = conn.collection("users").document(userUID)
+
+        userRef.update("profile_picture_url", newImageUrl)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Profile picture updated successfully!", Toast.LENGTH_SHORT).show()
+
+                // Refresh the activity
+                finish() // Close the current instance
+                startActivity(intent) // Restart the activity
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Failed to update profile picture: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
     }
+}

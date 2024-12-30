@@ -47,6 +47,11 @@ class RegistrationPage : AppCompatActivity() {
             val cpass = txtcpass.text.toString()
             var valid = true
 
+            lblErEmail.text = ""
+            lblErPass.text = ""
+            lblErCPass.text = ""
+
+
             if (email.isEmpty() || fname.isEmpty() || pass.isEmpty()) {
                 lblErCPass.text = "Please fill up all fields."
                 valid = false
@@ -54,7 +59,7 @@ class RegistrationPage : AppCompatActivity() {
 
             if (pass.length < 8 || !pass.contains("[A-Za-z0-9!\"#$%&'()*+,-./:;\\\\<=>?@\\[\\]^_`{|}~]".toRegex())) {
                 lblErPass.text =
-                    "The password does not follow the policy. It must have a minimum of 8 characters, have an uppercase, lowercase, special character, and a number."
+                    "The password does not follow the policy. It must have a minimum of 8 characters, have a(n): uppercase, lowercase, special character, number."
                 valid = false
             }
             if (pass != cpass) {
@@ -71,7 +76,7 @@ class RegistrationPage : AppCompatActivity() {
                     .addOnSuccessListener { users ->
                         if (!users.isEmpty) {
                             lblErEmail.text = "An account with this email already exists."
-                            txtemail.text = null
+                            lblErPass.text = null
                         } else {
                             mAuth.createUserWithEmailAndPassword(email, pass)
                                 .addOnCompleteListener(this) { task ->
@@ -99,26 +104,10 @@ class RegistrationPage : AppCompatActivity() {
                                                     startActivity(intent)
                                                     finish()
                                                 }
-                                                .addOnFailureListener { e ->
-                                                    Toast.makeText(
-                                                        this,
-                                                        "Failed to save user data: ${e.message}",
-                                                        Toast.LENGTH_LONG
-                                                    ).show()
-                                                }
                                         }
-                                    } else {
-                                        Toast.makeText(
-                                            this,
-                                            "Registration failed: ${task.exception?.message}",
-                                            Toast.LENGTH_LONG
-                                        ).show()
                                     }
                                 }
                         }
-                    }
-                    .addOnFailureListener { e ->
-                        Toast.makeText(this, "Error checking email: ${e.message}", Toast.LENGTH_LONG).show()
                     }
             }
         }
