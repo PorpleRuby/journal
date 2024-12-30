@@ -99,26 +99,10 @@ class RegistrationPage : AppCompatActivity() {
                                                     startActivity(intent)
                                                     finish()
                                                 }
-                                                .addOnFailureListener { e ->
-                                                    Toast.makeText(
-                                                        this,
-                                                        "Failed to save user data: ${e.message}",
-                                                        Toast.LENGTH_LONG
-                                                    ).show()
-                                                }
                                         }
-                                    } else {
-                                        Toast.makeText(
-                                            this,
-                                            "Registration failed: ${task.exception?.message}",
-                                            Toast.LENGTH_LONG
-                                        ).show()
                                     }
                                 }
                         }
-                    }
-                    .addOnFailureListener { e ->
-                        Toast.makeText(this, "Error checking email: ${e.message}", Toast.LENGTH_LONG).show()
                     }
             }
         }

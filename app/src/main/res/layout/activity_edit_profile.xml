@@ -176,7 +176,7 @@
                 android:id="@+id/errEditEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#FF0000" />
+                android:textColor="#FFFFFF" />
 
             <TextView
                 android:id="@+id/textView7"
@@ -221,7 +221,7 @@
                 android:id="@+id/errEditPass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#FF0000" />
+                android:textColor="#FFFFFF" />
 
         </LinearLayout>
 
