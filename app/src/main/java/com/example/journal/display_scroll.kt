@@ -40,12 +40,15 @@ class display_scroll : AppCompatActivity() {
         }
 
         val layout: LinearLayout = findViewById(R.id.linearLayout)
-        val noEntriesText: TextView = findViewById(R.id.no_entries) // Reference to "No Entries Yet" text
+        val noEntriesText: TextView = findViewById(R.id.no_entries)
         val search: SearchView = findViewById(R.id.search)
         val homeBtn: ImageView = findViewById(R.id.home_button_scroll)
         val addEntry: ImageView = findViewById(R.id.add_entry_scroll)
         val profileBtn: ImageView = findViewById(R.id.profileButtonScroll)
         val scrollView: ScrollView = findViewById(R.id.scrollView2)
+
+
+
 
         // this will scroll to the top when the home button is clicked
         homeBtn.setOnClickListener {
@@ -90,14 +93,17 @@ class display_scroll : AppCompatActivity() {
                 }
 
                 val sortedEntries = entries.sortedByDescending { it.second }
-                layout.removeAllViews()
 
-                // Display message if no entries are found
-                if (sortedEntries.isEmpty()) {
+                if (sortedEntries.isNotEmpty()) {
                     noEntriesText.visibility = View.GONE
+                    Log.d("DEBUG", "Entries present, hiding no entries message.")
                 } else {
                     noEntriesText.visibility = View.VISIBLE
+                    noEntriesText.requestLayout() // Ensure it redraws
+                    Log.d("DEBUG", "No entries found, showing no entries message.")
                 }
+
+
 
                 // Add entries to layout
                 for ((record, createdDate, _) in sortedEntries) {
@@ -179,6 +185,8 @@ class display_scroll : AppCompatActivity() {
         lblDate.text = createdDate.format(DateTimeFormatter.ofPattern("MMM dd, yyyy hh:mm a"))
     }
 
+
+
     private fun performSearch(searchInput: String?, sortedEntries: List<Triple<QueryDocumentSnapshot, LocalDateTime, String>>) {
         val filteredPosts = sortedEntries.filter {
             val entryMatches = it.first.getString("journal_entry")?.contains(searchInput ?: "", true) == true
@@ -194,5 +202,8 @@ class display_scroll : AppCompatActivity() {
             bindEntryView(template, record, createdDate)
             layout.addView(template)
         }
+
     }
+
+
 }

@@ -45,6 +45,7 @@
     </androidx.cardview.widget.CardView>
 
     <!-- ScrollView for Entries -->
+
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
@@ -64,22 +65,27 @@
 
             <TextView
                 android:id="@+id/no_entries"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_gravity="center"
                 android:fontFamily="sans-serif"
                 android:gravity="center"
                 android:text="NO ENTRIES YET"
                 android:textColor="#59514F"
                 android:textSize="20sp"
                 android:textStyle="italic"
-                android:visibility="visible" />
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
 
 
     </ScrollView>
 
     <!-- Footer Navigation -->
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
