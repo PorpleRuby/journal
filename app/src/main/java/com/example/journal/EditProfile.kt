@@ -1,5 +1,6 @@
 package com.example.journal
 
+import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
@@ -10,11 +11,13 @@ import android.text.InputType
 import android.widget.*
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -49,8 +52,23 @@ class EditProfile : AppCompatActivity() {
     private var originalPassword: String? = null
     private var originalProfilePicUrl: String? = null
 
+    private var userUID: String? = null // Declare userUID at the class level
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        imagePickLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = result.data
+                val selectedImageUri = data?.data
+                if (selectedImageUri != null) {
+                    userUID?.let {
+                        setProfilePic(it, selectedImageUri)
+                    }
+                }
+            }
+        }
+
         enableEdgeToEdge()
         setContentView(R.layout.activity_edit_profile)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -76,6 +94,16 @@ class EditProfile : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
 
         showUserData()
+
+        changePfp.setOnClickListener {
+            ImagePicker.with(this)
+                .cropSquare()
+                .compress(512)
+                .maxResultSize(512, 512)
+                .createIntent { intent ->
+                    imagePickLauncher.launch(intent)
+                }
+        }
 
         btnCopy.setOnClickListener {
             val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
@@ -222,4 +250,18 @@ class EditProfile : AppCompatActivity() {
                     }
             }
         }
+
+    private fun setProfilePic(userUID: String, newImageUri: Uri) {
+        val newImageUrl = newImageUri.toString() // Get the URI of the uploaded image
+        val userRef = conn.collection("users").document(userUID)
+
+        userRef.update("profile_picture_url", newImageUrl)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Profile picture updated successfully!", Toast.LENGTH_SHORT).show()
+                Glide.with(this).load(newImageUrl).circleCrop().into(pfp) // Update the UI
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Failed to update profile picture: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
     }
