@@ -139,39 +139,51 @@ class EditProfile : AppCompatActivity() {
                     }
 
                     if (valid) {
-                        val userUID = mAuth.currentUser?.uid
-                        if (userUID != null) {
-                            val updatedUser = hashMapOf(
-                                "fullname" to fname,
-                                "email" to email,
-                                "password" to pass,
-                                "profile_picture_url" to (selectedImageUri?.toString()
-                                    ?: originalProfilePicUrl ?: "default")
-                            )
-                            conn.collection("users").document(userUID).update(updatedUser as Map<String, Any>)
-                                .addOnSuccessListener {
-                                    Toast.makeText(
-                                        this,
-                                        "Profile updated successfully!",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    finish() // Return to profile page
-                                }
-                                .addOnFailureListener { e ->
-                                    Toast.makeText(
-                                        this,
-                                        "Failed to update profile: ${e.message}",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    // Revert changes
-                                    lblFname.text = Editable.Factory.getInstance()
-                                        .newEditable(originalFullName ?: "")
+                        conn.collection("users")
+                            .whereEqualTo("email", email)
+                            .get()
+                            .addOnSuccessListener { users ->
+                                if (!users.isEmpty) {
                                     lblEmail.text = Editable.Factory.getInstance()
                                         .newEditable(originalEmail ?: "")
-                                    lblPass.text = Editable.Factory.getInstance()
-                                        .newEditable(originalPassword ?: "")
+                                    errorEmail.text = "An account with this email already exists."
+                                } else {
+                                    val userUID = mAuth.currentUser?.uid
+                                    if (userUID != null) {
+                                        val updatedUser = hashMapOf(
+                                            "fullname" to fname,
+                                            "email" to email,
+                                            "password" to pass,
+                                            "profile_picture_url" to (selectedImageUri?.toString()
+                                                ?: originalProfilePicUrl ?: "default")
+                                        )
+                                        conn.collection("users").document(userUID)
+                                            .update(updatedUser as Map<String, Any>)
+                                            .addOnSuccessListener {
+                                                Toast.makeText(
+                                                    this,
+                                                    "Profile updated successfully!",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                                finish() // Return to profile page
+                                            }
+                                            .addOnFailureListener { e ->
+                                                Toast.makeText(
+                                                    this,
+                                                    "Failed to update profile: ${e.message}",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                                // Revert changes
+                                                lblFname.text = Editable.Factory.getInstance()
+                                                    .newEditable(originalFullName ?: "")
+                                                lblEmail.text = Editable.Factory.getInstance()
+                                                    .newEditable(originalEmail ?: "")
+                                                lblPass.text = Editable.Factory.getInstance()
+                                                    .newEditable(originalPassword ?: "")
+                                            }
+                                    }
                                 }
-                        }
+                            }
                     }
                 }.setNegativeButton("No", null)
                 .show()

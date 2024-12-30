@@ -44,7 +44,6 @@ class LoginPage : AppCompatActivity() {
             val pass = logPass.text.toString()
 
             lblLoginErr.text = ""
-            lblReg.text = ""
 
             conn.collection("users")
                 .whereEqualTo("email", email)
@@ -76,12 +75,14 @@ class LoginPage : AppCompatActivity() {
                             }
                     } else {
                         // Handle incorrect credentials
+                        logEmail.setText("")
+                        logPass.setText("")
                         loginAttempts--
                         lblLoginErr.text = "Incorrect email or password." + loginAttempts + " attempts left."
 
                         if (loginAttempts <= 0) {
                             btnLogin.isEnabled = false
-                            lblLoginErr.text = "Too many failed attempts. Please wait 30 seconds."
+                            lblLoginErr.text = "Too many failed attempts. 30 seconds timeout."
                             Handler().postDelayed({
                                 loginAttempts = 3
                                 btnLogin.isEnabled = true
