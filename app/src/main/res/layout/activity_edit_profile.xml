@@ -5,12 +5,14 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient"
     tools:context=".EditProfile">
 
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#E07474"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +25,9 @@
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:text="Edit Profile"
-            android:textSize="24sp" />
+            android:textColor="#FFFFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -70,7 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:layout_marginBottom="1dp"
-        app:cardBackgroundColor="#00FFFFFF"
+        app:cardBackgroundColor="#E08A8A"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -86,21 +90,32 @@
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="User ID:" />
+                android:text="User ID:"
+                android:textColor="#FFFFFFFF"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/displayEditUID"
-                    android:layout_width="350dp"
-                    android:layout_height="wrap_content"
-                    android:editable="false"
-                    android:ems="10"
-                    android:inputType="text"
-                    android:text="Name" />
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:cardCornerRadius="10dp">
+
+                    <EditText
+                        android:id="@+id/displayEditUID"
+                        android:layout_width="350dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:editable="false"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:text="Name"
+                        android:textColor="#25283D" />
+
+                </androidx.cardview.widget.CardView>
 
                 <ImageView
                     android:id="@+id/btnCopy"
@@ -115,29 +130,47 @@
                 android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Full name:" />
+                android:text="Full name:"
+                android:textColor="#FFFFFFFF"
+                android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/displayEditFname"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text"
-                android:text="Name" />
+                android:layout_height="match_parent"
+                app:cardCornerRadius="10dp">
+
+                <EditText
+                    android:id="@+id/displayEditFname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:text="Name"
+                    android:textColor="#25283D" />
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email:" />
+                android:text="Email:"
+                android:textColor="#FFFFFFFF"
+                android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/displayEditEmail"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text"
-                android:text="Name" />
+                android:layout_height="match_parent"
+                app:cardCornerRadius="10dp">
+
+                <EditText
+                    android:id="@+id/displayEditEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:text="Name"
+                    android:textColor="#25283D" />
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/errEditEmail"
@@ -149,20 +182,30 @@
                 android:id="@+id/textView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Password:" />
+                android:text="Password:"
+                android:textColor="#FFFFFFFF"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/displayEditPass"
-                    android:layout_width="350dp"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="text|textPassword"
-                    android:text="Password" />
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="5dp"
+                    app:cardCornerRadius="10dp">
+
+                    <EditText
+                        android:id="@+id/displayEditPass"
+                        android:layout_width="350dp"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="text|textPassword"
+                        android:text="Password"
+                        android:textColor="#25283D" />
+                </androidx.cardview.widget.CardView>
 
                 <ImageView
                     android:id="@+id/btnToggle"
@@ -200,7 +243,7 @@
             android:layout_width="10dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="#B8B6B6"
+            android:backgroundTint="#DBC3C3"
             android:text="Cancel"
             android:textColor="#000000" />
 
@@ -209,6 +252,7 @@
             android:layout_width="10dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:backgroundTint="#E07474"
             android:text="Save" />
     </LinearLayout>
 

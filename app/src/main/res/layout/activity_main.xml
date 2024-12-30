@@ -5,8 +5,7 @@
     android:id="@+id/main_1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:backgroundTint="#FAF9F5"
+    android:background="@drawable/bg_gradient"
     tools:context=".MainActivity">
 
     <TextView
@@ -19,7 +18,7 @@
         android:layout_marginBottom="19dp"
         android:fontFamily="serif"
         android:text="WELCOME"
-        android:textColor="#A4D4D9"
+        android:textColor="#25283D"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/appIcon"
@@ -37,7 +36,7 @@
         android:layout_marginBottom="44dp"
         android:fontFamily="sans-serif-black"
         android:text="mishau journal"
-        android:textColor="#A4D4D9"
+        android:textColor="#25283D"
         android:textSize="40sp"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toTopOf="@+id/getStarted"
@@ -48,14 +47,14 @@
     <Button
         android:id="@+id/getStarted"
         android:layout_width="150dp"
-        android:layout_height="50dp"
+        android:layout_height="65dp"
         android:layout_marginStart="80dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="81dp"
         android:layout_marginBottom="21dp"
-        android:backgroundTint="#B4D5CE"
+        android:backgroundTint="#E07474"
         android:text="Get Started"
-        android:textColor="#6D6D6D"
+        android:textColor="#FFFFFFFF"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/loginBtn"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,13 +64,13 @@
     <Button
         android:id="@+id/loginBtn"
         android:layout_width="150dp"
-        android:layout_height="50dp"
+        android:layout_height="65dp"
         android:layout_marginStart="80dp"
         android:layout_marginEnd="81dp"
         android:layout_marginBottom="115dp"
-        android:backgroundTint="#B5D7D0"
+        android:backgroundTint="#E07474"
         android:text="Login"
-        android:textColor="#6F7171"
+        android:textColor="#FFFFFFFF"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -80,8 +79,8 @@
 
     <ImageView
         android:id="@+id/appIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_marginStart="141dp"
         android:layout_marginTop="19dp"
         android:layout_marginEnd="142dp"
@@ -90,6 +89,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:srcCompat="@drawable/remove_bg_note" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
