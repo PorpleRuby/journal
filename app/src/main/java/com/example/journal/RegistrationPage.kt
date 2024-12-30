@@ -47,6 +47,11 @@ class RegistrationPage : AppCompatActivity() {
             val cpass = txtcpass.text.toString()
             var valid = true
 
+            lblErEmail.text = ""
+            lblErPass.text = ""
+            lblErCPass.text = ""
+
+
             if (email.isEmpty() || fname.isEmpty() || pass.isEmpty()) {
                 lblErCPass.text = "Please fill up all fields."
                 valid = false

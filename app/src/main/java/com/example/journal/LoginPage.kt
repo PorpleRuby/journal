@@ -43,6 +43,9 @@ class LoginPage : AppCompatActivity() {
             val email = logEmail.text.toString()
             val pass = logPass.text.toString()
 
+            lblLoginErr.text = ""
+            lblReg.text = ""
+
             conn.collection("users")
                 .whereEqualTo("email", email)
                 .whereEqualTo("password", pass)
