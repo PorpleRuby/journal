@@ -107,7 +107,7 @@
                     android:id="@+id/detail_content"
                     style="@style/Widget.Material3.AutoCompleteTextView.FilledBox"
                     android:layout_width="356dp"
-                    android:layout_height="428dp"
+                    android:layout_height="434dp"
                     android:layout_gravity="left"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="160dp"
