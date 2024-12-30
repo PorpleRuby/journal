@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -60,10 +61,10 @@ class EditProfile : AppCompatActivity() {
         imagePickLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data = result.data
-                val selectedImageUri = data?.data
+                selectedImageUri = data?.data // Update the class-level variable
                 if (selectedImageUri != null) {
                     userUID?.let {
-                        setProfilePic(it, selectedImageUri)
+                        setProfilePic(it, selectedImageUri!!)
                     }
                 }
             }
@@ -237,7 +238,9 @@ class EditProfile : AppCompatActivity() {
                             if (originalProfilePicUrl == "default") {
                                 pfp.setImageResource(R.drawable.cute_pfp_default)
                             } else if (!originalProfilePicUrl.isNullOrEmpty()) {
-                                Glide.with(this).load(originalProfilePicUrl).circleCrop().into(pfp)
+                                Glide.with(this).load(originalProfilePicUrl).circleCrop().skipMemoryCache(true).diskCacheStrategy(
+                                    DiskCacheStrategy.NONE).into(pfp)
+
                             } else {
                                 pfp.setImageResource(R.drawable.cute_pfp_default)
                             }
@@ -252,16 +255,19 @@ class EditProfile : AppCompatActivity() {
         }
 
     private fun setProfilePic(userUID: String, newImageUri: Uri) {
-        val newImageUrl = newImageUri.toString() // Get the URI of the uploaded image
+        val newImageUrl = newImageUri.toString()
         val userRef = conn.collection("users").document(userUID)
 
         userRef.update("profile_picture_url", newImageUrl)
             .addOnSuccessListener {
                 Toast.makeText(this, "Profile picture updated successfully!", Toast.LENGTH_SHORT).show()
-                Glide.with(this).load(newImageUrl).circleCrop().into(pfp) // Update the UI
+
+                // Refresh the activity
+                finish() // Close the current instance
+                startActivity(intent) // Restart the activity
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Failed to update profile picture: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
-    }
+}
