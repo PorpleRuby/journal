@@ -76,7 +76,7 @@ class RegistrationPage : AppCompatActivity() {
                     .addOnSuccessListener { users ->
                         if (!users.isEmpty) {
                             lblErEmail.text = "An account with this email already exists."
-                            txtemail.text = null
+                            lblErPass.text = null
                         } else {
                             mAuth.createUserWithEmailAndPassword(email, pass)
                                 .addOnCompleteListener(this) { task ->
