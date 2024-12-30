@@ -54,7 +54,7 @@ class RegistrationPage : AppCompatActivity() {
 
             if (pass.length < 8 || !pass.contains("[A-Za-z0-9!\"#$%&'()*+,-./:;\\\\<=>?@\\[\\]^_`{|}~]".toRegex())) {
                 lblErPass.text =
-                    "The password does not follow the policy. It must have a minimum of 8 characters, have an uppercase, lowercase, special character, and a number."
+                    "The password does not follow the policy. It must have a minimum of 8 characters, have a(n): uppercase, lowercase, special character, number."
                 valid = false
             }
             if (pass != cpass) {
